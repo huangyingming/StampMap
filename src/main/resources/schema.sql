@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS mysql.users(
 );
 CREATE TABLE IF NOT EXISTS mysql.places(
   place_id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  place_name VARCHAR(31) NOT NULL,
   latitude FLOAT(10, 6) NOT NULL,
   longitude FLOAT(10, 6) NOT NULL,
   address VARCHAR(255) NOT NULL,

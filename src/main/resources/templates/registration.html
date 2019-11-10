@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>スタンプマップ</title>
+</head>
+<body>
+    <form role="form" th:action="@{/registration}" th:object="${place}" method="post">
+        <label>スポット名</label>
+        <input type="text" th:field="*{placeName}" />
+        <label>説明</label>
+        <textarea th:field="*{description}"/>
+        <label>住所</label>
+        <input type="text" th:field="*{address}" />
+        <label>緯度</label>
+        <input type="text" th:field="*{latitude}" />
+        <label>経度</label>
+        <input type="text" th:field="*{longitude}" />
+        <label>画像</label>
+        <input type="file" multiple="multiple" th:field="*{images}" />
+    </form>
+</body>
+</html>
