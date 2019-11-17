@@ -5,7 +5,7 @@
     <title>スタンプマップ</title>
 </head>
 <body>
-    <form role="form" th:action="@{/registration}" th:object="${place}" method="post">
+    <form role="form" th:action="@{/registration}" th:object="${place}" enctype="multipart/form-data" method="post">
         <label>スポット名</label>
         <input type="text" th:field="*{placeName}" />
         <label>説明</label>
@@ -17,7 +17,8 @@
         <label>経度</label>
         <input type="text" th:field="*{longitude}" />
         <label>画像</label>
-        <input type="file" multiple="multiple" th:field="*{images}" />
+        <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg" th:field="*{images}" />
+        <input type="submit" value="送信" />
     </form>
 </body>
 </html>

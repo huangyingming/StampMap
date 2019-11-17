@@ -1,16 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.example.StampMap;
-import java.util.ArrayList;
+package com.example.stampmap.dto;
 import lombok.Data;
-import java.awt.Image;
-/**
- *
- * @author aaa
- */
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class Place {
@@ -20,11 +10,11 @@ public class Place {
     private double longitude;
     private double latitude;
     private String address;
-    private ArrayList<Image> images;
+    private MultipartFile[] images;
     /*
     public Place(int placeId, String placeName, String description, 
             double longitude, double latitude, String address, 
-            ArrayList<Integer> images) {
+            ArrayList<Image> images) {
         this.placeId = placeId;
         this.placeName = placeName;
         this. description = description;
@@ -34,4 +24,5 @@ public class Place {
         this.images = images;
     }
     */
+    
 }
