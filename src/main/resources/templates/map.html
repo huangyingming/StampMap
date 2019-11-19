@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>スタンプマップ</title>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let map;
+        let infoWindows = [];
+        let markers = [];
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 34.7019399,
+                    lng: 135.5100251999997
+                },
+                zoom: 19
+            });
+            addMarkers();
+        }
+        
+        function addMarkers() {
+            const placeDataJSON = JSON.parse(/*[[${placeDataJSON}]]*/ "");
+            const placeDataArray = placeDataJSON.placeData;
+            placeDataArray.forEach(function(placeData) {
+                const position = new google.maps.LatLng({
+                    lat: placeData.latitude,
+                    lng: placeData.longitude
+                });
+                const marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: placeData.placeName
+                });
+                markers.push(marker);
+                const infoWindow = new google.maps.InfoWindow({
+                    content: placeData.description
+                });
+                marker.addListener('click', function() {
+                    infoWindow.open(map, this);
+                });
+                infoWindows.push(infoWindow);
+            });
+        }
+        /*]]>*/
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=APIKEY&callback=initMap"> </script>
+    <style>
+        #map {
+            width: 1000px;
+            height: 700px;
+        }
+    </style>
+     
+</head>
+<body>
+    <p th:text="${placeDataJSON}">Default value.</p>
+    <div id="map"></div>
+</body>
+</html>
