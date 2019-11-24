@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>スタンプマップ</title>
+</head>
+<body>
+    <div th:object="${place}">
+        <h1 th:text="*{placeName}"></h1>
+        <p th:text="*{description}"></p>
+        <div th:each="publicId : *{publicIdsAndFormats}">
+            <p th:text="${publicId}">None</p>
+            <div>
+                <a th:href="@{https://res.cloudinary.com/foehammer/image/upload/} + ${publicId}">
+                   <img th:src="@{https://res.cloudinary.com/foehammer/image/upload/w_200,h_200,c_limit/} + ${publicId}" />
+                </a>
+            </div>
+        </div>
+        <p th:text="*{address}"></p>
+        <p th:text="*{placeCreatedAt}"></p>
+        <p th:ith:text="*{placeUpdatedAt != null} ? *{placeUpdatedAt}">-</p>
+        
+        
+    </div>
+</body>
+</html>

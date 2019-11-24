@@ -1,8 +1,11 @@
 package com.example.stampmap.dao;
 
 import com.example.stampmap.dto.Place;
-
+import java.util.List;
+import org.json.JSONArray;
 public interface PlaceDao {
 	int addPlace(Place place);
-        String readPlaceDataAll();
+        JSONArray readPlacesJSON();
+        Place readPlace(int placeId);
+        List<Place> readPlaces();
 }

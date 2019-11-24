@@ -6,55 +6,73 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         let map;
-        let infoWindows = [];
         let markers = [];
+        let infoWindow;
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 center: {
-                    lat: 34.7019399,
-                    lng: 135.5100251999997
+                    lat: 35.66044 ,
+                    lng: 139.381741
                 },
-                zoom: 19
+                zoom: 10
             });
             addMarkers();
         }
-        
-        function addMarkers() {
-            const placeDataJSON = JSON.parse(/*[[${placeDataJSON}]]*/ "");
-            const placeDataArray = placeDataJSON.placeData;
-            placeDataArray.forEach(function(placeData) {
-                const position = new google.maps.LatLng({
-                    lat: placeData.latitude,
-                    lng: placeData.longitude
-                });
-                const marker = new google.maps.Marker({
-                    position: position,
+        function addMarkers() {            
+            let latlng;
+            let i;
+            let marker;
+            infoWindow = new google.maps.InfoWindow();
+            /*[# th:each="place, placeStat : ${placeData}"]*/
+                latlng = new google.maps.LatLng(
+                    /*[[${place.latitude}]]*/,
+                    /*[[${place.longitude}]]*/
+                );
+                i = /*[[${placeStat.index}]]*/;
+                console.log(i);
+                marker = new google.maps.Marker({
+                    position: latlng,
                     map: map,
-                    title: placeData.placeName
+                    title: /*[[${place.placeName}]]*/
                 });
+                /*[+
+                contentString = '<div class="info-window"><p>' +
+                [[${place.description}]] +
+                '<p><img src=' + [[${place.topUrl}]] +
+                ' /></div>';
+                 +]*/
+                console.log(/*[[${place.topUrl}]]*/ );
+                console.log(contentString);
+                google.maps.event.addListener(marker, 'click', (function(marker, contentString, infoWindow) {
+                    return function() {
+                        infoWindow.setContent(contentString);
+                        infoWindow.open(map, marker);
+                    };
+                })(marker, contentString, infoWindow));
                 markers.push(marker);
-                const infoWindow = new google.maps.InfoWindow({
-                    content: placeData.description
-                });
-                marker.addListener('click', function() {
-                    infoWindow.open(map, this);
-                });
-                infoWindows.push(infoWindow);
-            });
+            /*[/]*/
         }
         /*]]>*/
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=APIKEY&callback=initMap"> </script>
+    
     <style>
         #map {
-            width: 1000px;
-            height: 700px;
+            width: 600px;
+            height: 600px;
+        }
+        img {
+            display: block;
+        }
+        .info-window {
+            width: 300px;
+            height: 300px;
         }
     </style>
      
 </head>
 <body>
-    <p th:text="${placeDataJSON}">Default value.</p>
     <div id="map"></div>
+    <img src="http://res.cloudinary.com/foehammer/image/upload/w_250,h_250,c_limit/stamps/rn7fxsilda3wnguum9jl.png" />
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNwAXlo4dArvIJa7J9nKGZUUqJfuYtqgg&callback=initMap"> </script>
 </body>
 </html>

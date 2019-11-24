@@ -38,7 +38,9 @@ CREATE TABLE IF NOT EXISTS mysql.comments(
     FOREIGN KEY fk_comments_users_user_id(user_id) REFERENCES mysql.users(user_id));
 
 INSERT INTO mysql.users VALUES(null,  'user1', 'password1');
+/*
 INSERT INTO mysql.places VALUES(null, '多摩動物公園', 'オラウータンがいる。日本で初めてバッタを養殖した。',
 35.6494125, 139.3998765, '東京都日野市程久保', '2019-11-19 13:27:00', null, true, 1);
 INSERT INTO mysql.places VALUES(null, '日野宿本陣', '新選組の何か。',
 35.6781071, 139.3974444, '東京都日野市日野本町', '2019-11-19 13:29:00', null, true, 1);
+*/
