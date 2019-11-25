@@ -16,11 +16,14 @@
                 </a>
             </div>
         </div>
+        <form role="form" th:action="@{__${#httpServletRequest.requestURI}__/image}" enctype="multipart/form-data" method="post">
+            <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg, image/jpeg" th:field="*{images}" />
+            <input type="submit" value="画像の追加" />
+        </form>
         <p th:text="*{address}"></p>
         <p th:text="*{placeCreatedAt}"></p>
         <p th:ith:text="*{placeUpdatedAt != null} ? *{placeUpdatedAt}">-</p>
-        
-        
     </div>
+    
 </body>
 </html>

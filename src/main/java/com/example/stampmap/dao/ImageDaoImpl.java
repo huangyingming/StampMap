@@ -4,7 +4,6 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.stampmap.Utility;
 import java.io.IOException; 
-import java.sql.Types;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,8 @@ public class ImageDaoImpl implements ImageDao{
     private static Cloudinary cloudinary = new Cloudinary(
         ObjectUtils.asMap(
         "cloud_name", "foehammer",
-        "api_key", "881886786763464",
-        "api_secret", "vtujGStdQ4AbYNWJHbxr3XpZlpw"
+        "api_key", System.getenv("CLOUDINARY_APIKEY"),
+        "api_secret", System.getenv("CLOUDINARY_SECRET")
         ));
     public void addImages(MultipartFile[] images, int placeId) {
         String currentDatetime = Utility.getCurrentDatetime();
