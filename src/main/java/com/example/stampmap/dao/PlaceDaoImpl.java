@@ -53,7 +53,7 @@ public class PlaceDaoImpl implements PlaceDao {
     }
     
     public Place readPlace(int placeId) {
-        String sql = "SELECT * FROM places WHERE place_id=?";
+        String sql = "SELECT * FROM places WHERE place_id=? LIMIT 1";
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, placeId);
         return makePlaceFromRow(resultList.get(0));
     }

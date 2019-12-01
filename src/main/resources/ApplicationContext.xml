@@ -21,7 +21,7 @@
     </bean>
     
     <-- ③DAOクラス -->
-    <bean class="StampMap.PlaceDao">
+    <bean class="stampmap.dao.PlaceDao">
         <property name="JdbcTemplate" ref="jdbcTemplate" />
     </bean>
     

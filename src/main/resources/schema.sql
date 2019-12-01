@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS mysql.images, mysql.comments, mysql.places, mysql.users;
+DROP TABLE IF EXISTS mysql.comments, mysql.places, mysql.users, mysql.images;
 CREATE TABLE IF NOT EXISTS mysql.users(
     user_id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_name VARCHAR(30) NOT NULL UNIQUE,

@@ -24,6 +24,10 @@
         <p th:text="*{placeCreatedAt}"></p>
         <p th:ith:text="*{placeUpdatedAt != null} ? *{placeUpdatedAt}">-</p>
     </div>
-    
+    <div>
+        <div th:each="comment : ${commentList}">
+           
+        </div>
+    </div>
 </body>
 </html>

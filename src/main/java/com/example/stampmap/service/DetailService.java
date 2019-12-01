@@ -1,6 +1,7 @@
 package com.example.stampmap.service;
 import com.example.stampmap.dao.ImageDao;
 import com.example.stampmap.dao.PlaceDao;
+import com.example.stampmap.dao.UserDao;
 import com.example.stampmap.dto.Place;
 import java.util.ArrayList;
 import java.util.List;
