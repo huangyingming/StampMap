@@ -16,7 +16,7 @@ public class CommentDaoImpl implements CommentDao {
     private JdbcTemplate jdbcTemplate;
     
     public List<Comment> readComments(int placeId) {
-        String sql = "SELECT * FROM comments WHERE placeId=? ORDER BY comment_created_at ASC";
+        String sql = "SELECT * FROM comments WHERE place_id=? ORDER BY comment_created_at ASC";
         RowMapper rowMapper = new ColumnMapRowMapper();
         List<Map<String, Object>> resultList = jdbcTemplate.query(sql, rowMapper, placeId);
         List<Comment> commentList = new ArrayList<Comment>();
@@ -30,12 +30,19 @@ public class CommentDaoImpl implements CommentDao {
         Comment comment = new Comment();
         comment.setCommentId(Integer.valueOf(row.get("comment_id").toString()));
         comment.setPlaceId(Integer.valueOf(row.get("place_id").toString()));
-        comment.setComment(row.get("comment").toString());
+        comment.setContent(row.get("content").toString());
         comment.setUserId(Integer.valueOf(row.get("user_id").toString()));
+        comment.setUserName(row.get("user_name").toString());
         comment.setCommentCreatedAt(row.get("comment_created_at").toString());
         if (row.get("comment_updated_at") != null) {
             comment.setCommentUpdatedAt(row.get("comment_updated_at").toString());
         }
         return comment;
+    }
+    
+    public void addComment(Comment comment) {
+        String sql = "INSERT INTO comments VALUES(?,?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, null, comment.getPlaceId(), comment.getContent(), comment.getUserId(), comment.getUserName(), comment.getCommentCreatedAt(),
+                comment.getCommentUpdatedAt());
     }
 }

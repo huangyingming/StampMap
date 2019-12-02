@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS mysql.comments, mysql.places, mysql.users, mysql.images;
+DROP TABLE IF EXISTS mysql.comments;/* mysql.places, mysql.users, mysql.images;*/
 CREATE TABLE IF NOT EXISTS mysql.users(
     user_id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_name VARCHAR(30) NOT NULL UNIQUE,
@@ -30,15 +30,16 @@ CREATE TABLE IF NOT EXISTS mysql.images(
 CREATE TABLE IF NOT EXISTS mysql.comments(
     comment_id INT(11) UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
     place_id INT(11) UNSIGNED NOT NULL,
-    comment VARCHAR(3000) NOT NULL,
+    content VARCHAR(3000) NOT NULL,
     user_id INT(11) UNSIGNED NOT NULL,
+    user_name VARCHAR(30) NOT NULL,
     comment_created_at DATETIME NOT NULL,
     comment_updated_at DATETIME,
     FOREIGN KEY fk_comments_places_place_id(place_id) REFERENCES mysql.places(place_id),
     FOREIGN KEY fk_comments_users_user_id(user_id) REFERENCES mysql.users(user_id));
 
-INSERT INTO mysql.users VALUES(null,  'user1', 'password1');
 /*
+INSERT INTO mysql.users VALUES(null,  'user1', 'password1');
 INSERT INTO mysql.places VALUES(null, '多摩動物公園', 'オラウータンがいる。日本で初めてバッタを養殖した。',
 35.6494125, 139.3998765, '東京都日野市程久保', '2019-11-19 13:27:00', null, true, 1);
 INSERT INTO mysql.places VALUES(null, '日野宿本陣', '新選組の何か。',

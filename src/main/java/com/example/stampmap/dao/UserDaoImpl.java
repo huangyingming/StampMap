@@ -15,10 +15,10 @@ public class UserDaoImpl implements UserDao {
         String sql = "SELECT * FROM users WHERE user_name=? AND user_password=? LIMIT 1";
         List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, userName, password);
         if (resultList.size() == 0) return null;
-        return populateUserFromRow(resultList.get(0));
+        return makeUserFromRow(resultList.get(0));
     }
     
-    private User populateUserFromRow(Map<String, Object> row) {
+    private User makeUserFromRow(Map<String, Object> row) {
         User user = new User();
         user.setUserId(Integer.valueOf(row.get("user_id").toString()));
         user.setUserName(row.get("user_name").toString());

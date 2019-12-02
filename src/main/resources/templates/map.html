@@ -20,37 +20,10 @@
         }
         function addMarkers() {            
             let latlng;
-            let i;
             let marker;
             infoWindow = new google.maps.InfoWindow();
-            /*[# th:each="place, placeStat : ${placeData}"]*/
-                latlng = new google.maps.LatLng(
-                    /*[[${place.latitude}]]*/,
-                    /*[[${place.longitude}]]*/
-                );
-                i = /*[[${placeStat.index}]]*/;
-                console.log(i);
-                marker = new google.maps.Marker({
-                    position: latlng,
-                    map: map,
-                    title: /*[[${place.placeName}]]*/
-                });
-                /*[+
-                contentString = '<div class="info-window"><p>' +
-                [[${place.description}]] +
-                '<p><img src=' + [[${place.topUrl}]] +
-                ' /></div>';
-                 +]*/
-                console.log(/*[[${place.topUrl}]]*/ );
-                console.log(contentString);
-                google.maps.event.addListener(marker, 'click', (function(marker, contentString, infoWindow) {
-                    return function() {
-                        infoWindow.setContent(contentString);
-                        infoWindow.open(map, marker);
-                    };
-                })(marker, contentString, infoWindow));
-                markers.push(marker);
-            /*[/]*/
+            const placeList = /*[[${placeData}]]*/;
+            
         }
         /*]]>*/
     </script>

@@ -1,4 +1,5 @@
 package com.example.stampmap.controller;
+import com.example.stampmap.Utility;
 import com.example.stampmap.dao.ImageDao;
 import com.example.stampmap.dao.PlaceDao;
 import com.example.stampmap.dto.Place;
@@ -24,6 +25,7 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String registrationSubmit(@ModelAttribute Place place, Model model) {
+        if (!Utility.isLoggedIn()) return "redirect:/account/index";
         int lastInsertedId = placeDao.addPlace(place);
         MultipartFile[] images = place.getImages();
         imageDao.addImages(images, lastInsertedId);

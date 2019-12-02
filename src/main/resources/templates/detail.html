@@ -9,7 +9,6 @@
         <h1 th:text="*{placeName}"></h1>
         <p th:text="*{description}"></p>
         <div th:each="publicId : *{publicIdsAndFormats}">
-            <p th:text="${publicId}">None</p>
             <div>
                 <a th:href="@{https://res.cloudinary.com/foehammer/image/upload/} + ${publicId}">
                    <img th:src="@{https://res.cloudinary.com/foehammer/image/upload/w_200,h_200,c_limit/} + ${publicId}" />
@@ -26,8 +25,17 @@
     </div>
     <div>
         <div th:each="comment : ${commentList}">
-           
+            <div>
+                <p th:text="${comment.userName}">anonymous</p>
+                <p th:text="${comment.commentUpdatedAt != null} ? ${comment.commentUpdatedAt} : ${comment.commentCreatedAt}">-</p>
+                <p th:text="${comment.content}"></p>
+            </div>
         </div>
+        <form role="form" th:action="@{__${#httpServletRequest.requestURI}__/commentsubmit}" th:object="${newComment}" method="post">
+            <label>コメント</label>
+            <textarea th:field="*{content}" />
+            <input type="submit" value="送信" />
+        </form>
     </div>
 </body>
 </html>
