@@ -22,7 +22,6 @@ public class MapController {
             int placeId = place.getPlaceId();
             String url = imageDao.readImageURLForPopUp(placeId);
             place.setTopUrl(url);
-            System.out.println(url);
         }
         model.addAttribute("placeData", placeList);
         return "map";
