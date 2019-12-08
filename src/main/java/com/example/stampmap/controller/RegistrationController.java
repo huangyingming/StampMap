@@ -3,6 +3,8 @@ import com.example.stampmap.Utility;
 import com.example.stampmap.dao.ImageDao;
 import com.example.stampmap.dao.PlaceDao;
 import com.example.stampmap.dto.Place;
+import com.example.stampmap.service.RegistrationService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ public class RegistrationController {
     private PlaceDao placeDao;
     @Autowired
     private ImageDao imageDao;
+    @Autowired
+    private RegistrationService registrationService;
     
     @GetMapping("/registration")
     public String registrationForm(Model model) {
@@ -31,5 +35,15 @@ public class RegistrationController {
         imageDao.addImages(images, lastInsertedId);
         model.addAttribute("insertedId", lastInsertedId);
         return "index";
+    }
+    
+    @PostMapping("/registration/fill")
+    public String fillAddressAndLatLng(@ModelAttribute Place place, Model model) {
+        String placeName = place.getPlaceName();
+        System.out.println(placeName);
+        JSONObject json = registrationService.readJsonFromPlaceName(placeName);
+        System.out.println(json.toString());
+        model.addAttribute("json", json.toString());
+        return "registration";
     }
 }

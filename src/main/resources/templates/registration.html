@@ -3,22 +3,113 @@
 <head>
     <meta charset="utf-8" />
     <title>スタンプマップ</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let results;
+        let map;
+        let marker;
+        let geocoder;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 35.66044 ,
+                    lng: 139.381741
+                },
+                zoom: 11
+            });
+            geocoder = new google.maps.Geocoder();
+            google.maps.event.addListener(map, "rightclick", function(event) {
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+                var latlng = new google.maps.LatLng(lat, lng);
+                if (marker != null) {
+                    marker.setMap(null);
+                }
+                marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map
+                });
+                $("#latitude").val(lat);
+                $("#longitude").val(lng);
+                let address = "";
+                geocoder.geocode({
+                    'latLng': event.latLng
+                    }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results[0]){
+                            address = results[0].formatted_address;
+                        } else {
+                            console.log("results is empty.");
+                        }
+                        
+                    } else {
+                        console.log(status);
+                    } 
+                })
+                $("#address").val(address);
+            });  
+        }
+        $(document).ready(function() {
+            fillSelect();
+            
+            $("#form").on('change', '#candidates', function() {
+            const index = $('option:selected', this).val();
+            console.log(index);
+            console.log("change called");
+            $("#address").val(results[index].formatted_address);
+            $("#latitude").val(results[index].geometry.location.lat);
+            $("#longitude").val(results[index].geometry.location.lng);
+        });
+        });
+        function fillSelect() {
+            const jsonString = /*[[${json}]]*/ null;
+            if (jsonString === null) return;
+            const json = JSON.parse(jsonString);
+            results = json.results;
+            let $candidates = $('#candidates');
+            if (results.length === 0) {
+                $candidates.append('<option disabled>候補がありません</option');
+                return;
+            }
+            console.log(results);
+            let listItems = '<option disabled selected>候補を選んでください</option>';
+            $.each(results, function(index, item) {
+                listItems += '<option value=' + index + '>' + item.name + '</option>';
+            });
+            $candidates.append(listItems);
+        }
+        
+        
+        
+        /*]]>*/
+    </script>
+    <style>
+        #map {
+            width: 600px;
+            height: 600px;
+        }
+    </style>
 </head>
 <body>
-    <form role="form" th:action="@{/registration}" th:object="${place}" enctype="multipart/form-data" method="post">
+    <form id="form" role="form" th:action="@{/registration}" th:object="${place}" enctype="multipart/form-data" method="post">
         <label>スポット名</label>
         <input type="text" th:field="*{placeName}" />
+        <input type="submit" th:formaction="@{/registration/fill}" value="スポット名から住所、緯度経度を検索" />
+        <select id="candidates"></select>
         <label>説明</label>
         <textarea th:field="*{description}"/>
         <label>住所</label>
-        <input type="text" th:field="*{address}" />
+        <input id="address" type="text" th:field="*{address}" />
         <label>緯度</label>
-        <input type="text" th:field="*{latitude}" />
+        <input id="latitude" type="text" th:field="*{latitude}" />
         <label>経度</label>
-        <input type="text" th:field="*{longitude}" />
+        <input id="longitude" type="text" th:field="*{longitude}" />
         <label>画像</label>
         <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg" th:field="*{images}" />
         <input type="submit" value="送信" />
     </form>
+    <div id="map"></div>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDNwAXlo4dArvIJa7J9nKGZUUqJfuYtqgg&callback=initMap"> </script>
 </body>
 </html>
