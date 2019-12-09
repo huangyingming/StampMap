@@ -24,12 +24,13 @@ public class RegistrationController {
     @GetMapping("/registration")
     public String registrationForm(Model model) {
         model.addAttribute("place", new Place());
+        model.addAttribute("fillUrl", "/registration/fill");
         return "registration";
     }
 
     @PostMapping("/registration")
     public String registrationSubmit(@ModelAttribute Place place, Model model) {
-        if (!Utility.isLoggedIn()) return "redirect:/account/index";
+        //if (!Utility.isLoggedIn()) return "redirect:/account/index";
         int lastInsertedId = placeDao.addPlace(place);
         MultipartFile[] images = place.getImages();
         imageDao.addImages(images, lastInsertedId);
@@ -40,9 +41,7 @@ public class RegistrationController {
     @PostMapping("/registration/fill")
     public String fillAddressAndLatLng(@ModelAttribute Place place, Model model) {
         String placeName = place.getPlaceName();
-        System.out.println(placeName);
         JSONObject json = registrationService.readJsonFromPlaceName(placeName);
-        System.out.println(json.toString());
         model.addAttribute("json", json.toString());
         return "registration";
     }

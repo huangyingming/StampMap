@@ -9,4 +9,5 @@ public interface PlaceDao {
         JSONArray readPlacesJSON();
         Place readPlace(int placeId);
         List<Place> readPlaces();
+        void updatePlace(Place place);
 }

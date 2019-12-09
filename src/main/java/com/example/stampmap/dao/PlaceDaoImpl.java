@@ -106,5 +106,12 @@ public class PlaceDaoImpl implements PlaceDao {
          }
         return jsonArray;
     }
-           
+    
+    public void updatePlace(Place place) {
+        String currentDatetime = Utility.getCurrentDatetime();
+        String sql = "UPDATE places SET place_name=?, description=?, latitude=?, longitude=?, address=?, place_updated_at=?";
+        jdbcTemplate.update(sql, place.getPlaceName(), place.getDescription(), place.getLatitude(), place.getLongitude(), 
+                place.getAddress(), place.getPlaceUpdatedAt()
+        );
+    }
 }

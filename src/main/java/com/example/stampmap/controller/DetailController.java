@@ -63,4 +63,8 @@ public class DetailController {
         commentDao.addComment(newComment);
         return "redirect:/detail/" + Integer.toString(placeId);
     }
+    
+    
+    
+    
 }

@@ -23,7 +23,6 @@ public class RegistrationService {
         try {
             String url = "https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyDNwAXlo4dArvIJa7J9nKGZUUqJfuYtqgg&language=ja&query=";
             url = url + URLEncoder.encode(placeName, "UTF-8");
-            System.out.println(url);
             return readJsonFromUrl(url);
         } catch (IOException e) {
             e.printStackTrace();
