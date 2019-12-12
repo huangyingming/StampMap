@@ -19,9 +19,21 @@
             <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg, image/jpeg" th:field="*{images}" />
             <input type="submit" value="画像の追加" />
         </form>
-        <p th:text="*{address}"></p>
-        <p th:text="*{placeCreatedAt}"></p>
-        <p th:ith:text="*{placeUpdatedAt != null} ? *{placeUpdatedAt}">-</p>
+        
+    </div>
+    <div th:object="${place}">
+        <form role="form" th:action="@{/edit}" method="get">
+            <input type="hidden" th:field="*{placeId}" />
+            <input type="hidden" th:field="*{placeName}" />
+            <input type="hidden" th:field="*{description}" />
+            <input type="hidden" th:field="*{address}" />
+            <input type="hidden" th:field="*{placeCreatedAt}" />
+            <input type="hidden" th:field="*{placeUpdatedAt}" />
+            <input type="hidden" th:field="*{latitude}" />
+            <input type="hidden" th:field="*{longitude}" />
+            <input type="hidden" th:field="*{userId}" />
+            <input type="submit" th:value="編集（投稿ユーザのみ）" />
+        </form>
     </div>
     <div>
         <div th:each="comment : ${commentList}">

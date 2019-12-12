@@ -6,7 +6,7 @@
 </head>
 <body>
     
-    <form role="form" th:action="@{/account/login}" th:object="${user}" method="post">
+    <form role="form" th:action="@{/login}" th:object="${user}" method="post">
         <label>ユーザ名</label>
         <input type="text" th:field="*{userName}" />
         <label>パスワード</label>

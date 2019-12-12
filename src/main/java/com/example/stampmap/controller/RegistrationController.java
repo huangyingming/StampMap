@@ -1,5 +1,5 @@
 package com.example.stampmap.controller;
-import com.example.stampmap.Utility;
+
 import com.example.stampmap.dao.ImageDao;
 import com.example.stampmap.dao.PlaceDao;
 import com.example.stampmap.dto.Place;
@@ -24,7 +24,8 @@ public class RegistrationController {
     @GetMapping("/registration")
     public String registrationForm(Model model) {
         model.addAttribute("place", new Place());
-        model.addAttribute("fillUrl", "/registration/fill");
+        model.addAttribute("actionUrl", "/registration");
+        model.addAttribute("fillActionUrl", "/registration/fill");
         return "registration";
     }
 
@@ -35,14 +36,18 @@ public class RegistrationController {
         MultipartFile[] images = place.getImages();
         imageDao.addImages(images, lastInsertedId);
         model.addAttribute("insertedId", lastInsertedId);
-        return "index";
+        return "redirect:/detail/" + Integer.toString(lastInsertedId);
     }
     
     @PostMapping("/registration/fill")
     public String fillAddressAndLatLng(@ModelAttribute Place place, Model model) {
         String placeName = place.getPlaceName();
         JSONObject json = registrationService.readJsonFromPlaceName(placeName);
+        place.setImages(null);
         model.addAttribute("json", json.toString());
+        model.addAttribute("place", place);
+        model.addAttribute("actionUrl", "/registration");
+        model.addAttribute("fillActionUrl", "/registration/fill");
         return "registration";
     }
 }

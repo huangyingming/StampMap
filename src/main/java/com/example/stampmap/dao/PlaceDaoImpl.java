@@ -109,9 +109,9 @@ public class PlaceDaoImpl implements PlaceDao {
     
     public void updatePlace(Place place) {
         String currentDatetime = Utility.getCurrentDatetime();
-        String sql = "UPDATE places SET place_name=?, description=?, latitude=?, longitude=?, address=?, place_updated_at=?";
+        String sql = "UPDATE places SET place_name=?, description=?, latitude=?, longitude=?, address=?, place_updated_at=? WHERE place_id=?";
         jdbcTemplate.update(sql, place.getPlaceName(), place.getDescription(), place.getLatitude(), place.getLongitude(), 
-                place.getAddress(), place.getPlaceUpdatedAt()
+                place.getAddress(), place.getPlaceUpdatedAt(), place.getPlaceId()
         );
     }
 }

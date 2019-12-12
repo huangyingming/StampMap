@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
-@RequestMapping(value = "account")
 @Controller
 public class AccountController {
     @Autowired
@@ -28,7 +25,11 @@ public class AccountController {
     
     @PostMapping("/login")
     public String login(@ModelAttribute User user, HttpSession session) {
-        User loggedInUser = userDao.checkLogin(user.getUserName(), user.getPassword());
+        User loggedInUser;
+        loggedInUser = userDao.checkLogin(user.getUserName(), user.getPassword());
+        if (loggedInUser == null) {
+            return "login";
+        }
         session.setAttribute("user", loggedInUser);
         return "redirect:/map";
     }
@@ -36,7 +37,7 @@ public class AccountController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/account/index";
+        return "redirect:/index";
     }
     
     @GetMapping("/check")

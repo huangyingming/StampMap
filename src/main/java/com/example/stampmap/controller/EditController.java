@@ -22,23 +22,30 @@ public class EditController {
     @GetMapping("/edit") 
     public String editForm(Place place, Model model
             ) {
-        System.out.println(place.getPlaceName());
         model.addAttribute("place", place);
-        return "edit";
+        model.addAttribute("actionUrl", "/edit");
+        model.addAttribute("fillActionUrl", "/edit/fill");
+        model.addAttribute("imagesClass", "hidden");
+        return "registration";
     }
     
-    @PutMapping("/edit/{placeId}")
-    public String editSubmit(@ModelAttribute Place place, @PathVariable int placeId) {
+    @PostMapping("/edit")
+    public String editSubmit(@ModelAttribute Place place) {
         placeDao.updatePlace(place);
-        return "redirect:/detail" + Integer.toString(placeId);
+        return "redirect:/detail/" + Integer.toString(place.getPlaceId());
     }
     
-    @PutMapping("/edit/fill")
+    @PostMapping("/edit/fill")
     public String fillAddressAndLatLng(@ModelAttribute Place place, Model model) {
         String placeName = place.getPlaceName() ;
         JSONObject json = registrationService.readJsonFromPlaceName(placeName);
+        place.setImages(null);
         model.addAttribute("json", json.toString());
-        return "edit";
+        model.addAttribute("place", place);
+        model.addAttribute("actionUrl", "/edit");
+        model.addAttribute("fillActionUrl", "/edit/fill");
+        model.addAttribute("imagesClass", "hidden");
+        return "registration";
     }
     
     
