@@ -1,5 +1,6 @@
 package com.example.stampmap;
 
+import com.example.stampmap.dto.User;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpSession;
@@ -14,9 +15,20 @@ public class Utility {
         return currentDatetime;
     }
     
-    public static boolean isLoggedIn() {
+    public static User getCurrentUser() {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attr.getRequest().getSession();
-        return session.getAttribute("user") != null;
+        return (session.getAttribute("user") != null) ? (User) session.getAttribute("user") : null;
+    }
+    public static boolean isLoggedIn() {
+        return getCurrentUser() != null;
+    }
+    
+    public static int getCurrentUserId() {
+        User currentUser = getCurrentUser();
+        if (currentUser == null) {
+            return -1;
+        } 
+        return currentUser.getUserId();
     }
 }

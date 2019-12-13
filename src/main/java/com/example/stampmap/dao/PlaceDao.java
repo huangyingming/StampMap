@@ -10,4 +10,5 @@ public interface PlaceDao {
         Place readPlace(int placeId);
         List<Place> readPlaces();
         void updatePlace(Place place);
+        List<Place> readPlacesForVisited(int userId);
 }

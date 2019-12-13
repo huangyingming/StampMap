@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>スタンプマップ</title>
+    <script th:inline="javascript" th:fragment="script">
+        /*<![CDATA[*/
+        let results;
+        let map;
+        let marker;
+        let geocoder;
+        function initMap() {
+            const imagesClass = /*[[${imagesClass}]]*/ null;
+            const place = /*[[${place}]]*/ null;
+            let latlng = {
+                lat: 35.66044,
+                lng: 139.381741
+            };
+            if (place !== null && imagesClass !== null) {
+                latlng = new google.maps.LatLng(place.latitude, place.longitude);
+            }
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: latlng,
+                zoom: 11
+            });
+            prepareRightClick();
+            if (imagesClass !== null) {
+                resetMarker(latlng);
+            }
+        }
+        function prepareRightClick() {
+            geocoder = new google.maps.Geocoder();
+            google.maps.event.addListener(map, "rightclick", function(event) {
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+                var latlng = new google.maps.LatLng(lat, lng);
+                resetMarker(latlng);
+                $("#latitude").val(lat);
+                $("#longitude").val(lng);
+          
+                let address = "";
+                geocoder.geocode({
+                    "location": event.latLng
+                    }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results[0]){
+                            address = results[0].formatted_address;
+                            $("#address").val(address);
+                        } else {
+                            console.log("results is empty.");
+                        }
+                        
+                    } else {
+                        alert(status+": 住所検索でのエラーです。時間をおいて再度右クリックしていただくか住所を手入力して下さい。");
+                    } 
+                })
+            });  
+        }
+        
+        $(document).ready(function() {
+            fillSelect();
+            $("#form").on('change', '#candidates', function() {
+                const index = $('option:selected', this).val();
+                $("#address").val(results[index].formatted_address);
+                $("#latitude").val(results[index].geometry.location.lat);
+                $("#longitude").val(results[index].geometry.location.lng);
+                resetMarker(results[index].geometry.location);
+                map.panTo(results[index].geometry.location);
+            });
+        });
+        
+        function resetMarker(latlng) {
+            if (marker != null) {
+                marker.setMap(null);
+            }
+            marker = new google.maps.Marker({
+                position: latlng,
+                map: map
+            });
+        }
+        
+        function fillSelect() {
+            const jsonString = /*[[${json}]]*/ null;
+            if (jsonString === null) return;
+            const json = JSON.parse(jsonString);
+            results = json.results;
+            let $candidates = $('#candidates');
+            if (results.length === 0) {
+                $candidates.append('<option disabled>候補がありません</option');
+                return;
+            }
+            let listItems = '<option disabled selected>候補を選んでください</option>';
+            $.each(results, function(index, item) {
+                listItems += '<option value=' + index + '>' + item.name + '</option>';
+            });
+            $candidates.append(listItems);
+            $candidates.removeClass("hidden");
+        }
+        /*]]>*/
+    </script>
+</head>
+</html>

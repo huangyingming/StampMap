@@ -43,7 +43,7 @@ public class PlaceDaoImpl implements PlaceDao {
                     ps.setString(7, currentDatetime);
                     ps.setString(8, null);
                     ps.setBoolean(9, true);
-                    ps.setInt(10, 1);
+                    ps.setInt(10, place.getUserId());
                     return ps;
                 }
             }, keyHolder
@@ -113,5 +113,16 @@ public class PlaceDaoImpl implements PlaceDao {
         jdbcTemplate.update(sql, place.getPlaceName(), place.getDescription(), place.getLatitude(), place.getLongitude(), 
                 place.getAddress(), place.getPlaceUpdatedAt(), place.getPlaceId()
         );
+    }
+    
+    public List<Place> readPlacesForVisited(int userId) {
+        String sql = "SELECT * FROM places INNER JOIN comments ON places.user_id=? OR (comments.place_id == places.place_id AND comments.user_id = ?)";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql);
+        List<Place> placeList = new ArrayList<Place>();
+        for (int i = 0; i < resultList.size(); i++) {
+            Place place = makePlaceFromRow(resultList.get(i));
+            placeList.add(place);
+        }
+        return placeList;
     }
 }

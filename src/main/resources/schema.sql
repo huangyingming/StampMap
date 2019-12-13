@@ -1,3 +1,4 @@
+/*
 DROP TABLE IF EXISTS mysql.comments, mysql.images, mysql.places,  mysql.users;
 CREATE TABLE IF NOT EXISTS mysql.users(
     user_id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -40,6 +41,10 @@ CREATE TABLE IF NOT EXISTS mysql.comments(
 
 
 INSERT INTO mysql.users VALUES(null,  'user1', 'password1');
+*/
+
+INSERT INTO mysql.users VALUES(null, 'user2', 'password2');
+
 /*
 INSERT INTO mysql.places VALUES(null, '多摩動物公園', 'オラウータンがいる。日本で初めてバッタを養殖した。',
 35.6494125, 139.3998765, '東京都日野市程久保', '2019-11-19 13:27:00', null, true, 1);
