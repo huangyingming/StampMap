@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>スタンプマップ</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script th:replace="../static/registration-js :: script"></script>
+    <script th:replace="../static/upload-js :: script"></script>
     <style>
         #map {
             width: 600px;
@@ -38,6 +38,9 @@
         </label>
         <input type="hidden" th:field="*{placeId}" />
         <input type="submit" value="送信" />
+        <ul th:if="${#fields.hasErrors('*')}">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+        </ul>
     </form>
     <div id="map"></div>
     <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDNwAXlo4dArvIJa7J9nKGZUUqJfuYtqgg&callback=initMap"> </script>

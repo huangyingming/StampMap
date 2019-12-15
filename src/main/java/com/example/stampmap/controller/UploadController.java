@@ -3,36 +3,44 @@ package com.example.stampmap.controller;
 import com.example.stampmap.dao.ImageDao;
 import com.example.stampmap.dao.PlaceDao;
 import com.example.stampmap.dto.Place;
-import com.example.stampmap.service.RegistrationService;
+import com.example.stampmap.service.UploadService;
 import com.example.stampmap.Utility;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 @Controller
-public class RegistrationController {
+public class UploadController {
     @Autowired
     private PlaceDao placeDao;
     @Autowired
     private ImageDao imageDao;
     @Autowired
-    private RegistrationService registrationService;
+    private UploadService uploadService;
     
-    @GetMapping("/registration")
-    public String registrationForm(Model model) {
+    @GetMapping("/upload")
+    public String uploadForm(Model model) {
         model.addAttribute("place", new Place());
-        model.addAttribute("actionUrl", "/registration");
-        model.addAttribute("fillActionUrl", "/registration/fill");
-        return "registration";
+        model.addAttribute("actionUrl", "/upload");
+        model.addAttribute("fillActionUrl", "/upload/fill");
+        return "upload";
     }
 
-    @PostMapping("/registration")
-    public String registrationSubmit(@ModelAttribute Place place, Model model) {
+    @PostMapping("/upload")
+    public String ulploadSubmit(@Validated @ModelAttribute Place place,  BindingResult result, Model model) {
         //if (!Utility.isLoggedIn()) return "redirect:/account/index";
+        if (result.hasErrors()) {
+            place.setImages(null);
+            model.addAttribute("place", place);
+            return "upload";
+        }
         place.setUserId(Utility.getCurrentUserId());
         int lastInsertedId = placeDao.addPlace(place);
         MultipartFile[] images = place.getImages();
@@ -41,15 +49,15 @@ public class RegistrationController {
         return "redirect:/detail/" + Integer.toString(lastInsertedId);
     }
     
-    @PostMapping("/registration/fill")
+    @PostMapping("/upload/fill")
     public String fillAddressAndLatLng(@ModelAttribute Place place, Model model) {
         String placeName = place.getPlaceName();
-        JSONObject json = registrationService.readJsonFromPlaceName(placeName);
+        JSONObject json = uploadService.readJsonFromPlaceName(placeName);
         place.setImages(null);
         model.addAttribute("json", json.toString());
         model.addAttribute("place", place);
-        model.addAttribute("actionUrl", "/registration");
-        model.addAttribute("fillActionUrl", "/registration/fill");
-        return "registration";
+        model.addAttribute("actionUrl", "/upload");
+        model.addAttribute("fillActionUrl", "/upload/fill");
+        return "upload";
     }
 }

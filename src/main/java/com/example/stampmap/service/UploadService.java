@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 @Service
-public class RegistrationService {
+public class UploadService {
     public JSONObject readJsonFromPlaceName(String placeName) {
         try {
             String url = "https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyDNwAXlo4dArvIJa7J9nKGZUUqJfuYtqgg&language=ja&query=";
