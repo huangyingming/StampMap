@@ -116,13 +116,16 @@ public class PlaceDaoImpl implements PlaceDao {
     }
     
     public List<Place> readPlacesForVisited(int userId) {
-        String sql = "SELECT * FROM places INNER JOIN comments ON places.user_id=? OR (comments.place_id == places.place_id AND comments.user_id = ?)";
-        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql);
+        String sql = "SELECT * FROM places WHERE places.user_id = ? OR places.place_id in (SELECT DISTINCT comments.place_id\n" +
+"FROM comments WHERE  comments.user_id = ?)";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, userId, userId);
         List<Place> placeList = new ArrayList<Place>();
         for (int i = 0; i < resultList.size(); i++) {
             Place place = makePlaceFromRow(resultList.get(i));
             placeList.add(place);
         }
+        System.out.println(userId);
+        System.out.println(resultList.size());
         return placeList;
     }
 }

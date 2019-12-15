@@ -4,6 +4,7 @@ import com.example.stampmap.dao.ImageDao;
 import com.example.stampmap.dao.PlaceDao;
 import com.example.stampmap.dto.Place;
 import com.example.stampmap.service.RegistrationService;
+import com.example.stampmap.Utility;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String registrationSubmit(@ModelAttribute Place place, Model model) {
         //if (!Utility.isLoggedIn()) return "redirect:/account/index";
+        place.setUserId(Utility.getCurrentUserId());
         int lastInsertedId = placeDao.addPlace(place);
         MultipartFile[] images = place.getImages();
         imageDao.addImages(images, lastInsertedId);

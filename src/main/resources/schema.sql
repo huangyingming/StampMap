@@ -1,4 +1,3 @@
-/*
 DROP TABLE IF EXISTS mysql.comments, mysql.images, mysql.places,  mysql.users;
 CREATE TABLE IF NOT EXISTS mysql.users(
     user_id INT(11) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -40,9 +39,7 @@ CREATE TABLE IF NOT EXISTS mysql.comments(
     FOREIGN KEY fk_comments_users_user_id(user_id) REFERENCES mysql.users(user_id));
 
 
-INSERT INTO mysql.users VALUES(null,  'user1', 'password1');
-*/
-
+INSERT INTO mysql.users VALUES(null, 'user1', 'password1');
 INSERT INTO mysql.users VALUES(null, 'user2', 'password2');
 
 /*
