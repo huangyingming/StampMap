@@ -38,8 +38,8 @@
         </label>
         <input type="hidden" th:field="*{placeId}" />
         <input type="submit" value="送信" />
-        <ul th:if="${#fields.hasErrors('*')}">
-            <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+        <ul th:each="e : ${#fields.detailedErrors('*')}">
+            <li th:text="${e.message}">The error message</li>
         </ul>
     </form>
     <div id="map"></div>

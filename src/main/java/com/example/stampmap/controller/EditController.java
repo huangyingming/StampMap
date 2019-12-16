@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 
 
 @Controller
@@ -28,7 +30,14 @@ public class EditController {
     }
     
     @PostMapping("/edit")
-    public String editSubmit(@ModelAttribute Place place) {
+    public String editSubmit(@Validated @ModelAttribute Place place, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            place.setImages(null);
+            model.addAttribute("place", place);
+            model.addAttribute("fillActionUrl", "/edit/fill");
+            model.addAttribute("imagesClass", "hidden");
+            return "upload";
+        }
         placeDao.updatePlace(place);
         return "redirect:/detail/" + Integer.toString(place.getPlaceId());
     }
@@ -45,7 +54,4 @@ public class EditController {
         model.addAttribute("imagesClass", "hidden");
         return "upload";
     }
-    
-    
-    
 }

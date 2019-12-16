@@ -39,6 +39,8 @@ public class UploadController {
         if (result.hasErrors()) {
             place.setImages(null);
             model.addAttribute("place", place);
+            model.addAttribute("actionUrl", "/upload");
+            model.addAttribute("fillActionUrl", "/upload/fill");
             return "upload";
         }
         place.setUserId(Utility.getCurrentUserId());

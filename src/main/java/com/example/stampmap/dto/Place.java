@@ -13,8 +13,8 @@ public class Place {
     private int placeId;
     @NotBlank
     private String placeName;
-    @NotBlank
-    @Size(min=1, max= 3000)
+    @NotBlank()
+    @Size(min=1, max=3000)
     private String description;
     @NotNull
     @Max(180)
@@ -25,11 +25,12 @@ public class Place {
     @Min(-90)
     private double latitude;
     @NotBlank
+    @Size(min=1, max=255)
     private String address;
     private int userId;
     private String placeCreatedAt;
     private String placeUpdatedAt;
     private MultipartFile[] images;
     private List<String> publicIdsAndFormats;
-    private String topUrl; 
+    private String topUrl;
 }
