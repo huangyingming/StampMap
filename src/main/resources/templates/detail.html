@@ -3,7 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <title>スタンプマップ</title>
-    <link rel="stylesheet" href=""
+    <style>
+        .hidden {
+            display: none;
+        }
+        
+        .notLoggedIn {
+            display: block;
+            color: red;
+            font-size: 30px;
+        }
+        
+    </style>
 </head>
 <body>
     <div th:object="${place}">
@@ -16,10 +27,13 @@
                 </a>
             </div>
         </div>
-        <form role="form" th:action="@{__${#httpServletRequest.requestURI}__/image}" enctype="multipart/form-data" method="post">
+        <form role="form" th:action="@{__${#httpServletRequest.requestURI}__/image}" enctype="multipart/form-data" method="post" >
             <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg, image/jpeg" th:field="*{images}" />
             <input type="submit" value="画像の追加" />
         </form>
+        <div th:class="${imageLoggedIn}">
+            <p>ログインが必要です。</p>
+        </div>
         
     </div>
     <div th:object="${place}">
@@ -36,7 +50,18 @@
             <input type="submit" th:value="編集（投稿ユーザのみ）" />
         </form>
     </div>
+    <div th:class="${editLoggedIn}">
+        <p>ログインが必要です。</p>
+    </div>
     <div>
+        <form role="form" th:action="@{__${#httpServletRequest.requestURI}__/commentsubmit}" th:object="${newComment}" method="post">
+            <label>コメント</label>
+            <textarea th:field="*{content}" />
+            <input type="submit" value="送信" />
+        </form>
+        <div th:class="${commentLoggedIn}">
+            <p>ログインが必要です。</p>
+        </div>
         <div th:each="comment : ${commentList}">
             <div>
                 <p th:text="${comment.userName}">anonymous</p>
@@ -44,11 +69,8 @@
                 <p th:text="${comment.content}"></p>
             </div>
         </div>
-        <form role="form" th:action="@{__${#httpServletRequest.requestURI}__/commentsubmit}" th:object="${newComment}" method="post">
-            <label>コメント</label>
-            <textarea th:field="*{content}" />
-            <input type="submit" value="送信" />
-        </form>
+        
+        
     </div>
 </body>
 </html>

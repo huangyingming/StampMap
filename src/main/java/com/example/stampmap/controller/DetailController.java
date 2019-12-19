@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes; 
 import org.springframework.ui.Model;
 
 
@@ -40,19 +41,33 @@ public class DetailController {
         model.addAttribute("place", place);
         model.addAttribute("commentList", commentList);
         model.addAttribute("newComment", new Comment());
+        detailService.handleRedirectAttributes(model);
+        System.out.println(model.getAttribute("commentLoggedIn"));
         return "detail";
     }
     
     @PostMapping("/{placeId}/image")
-    public String addImage(@PathVariable int placeId, @RequestBody MultipartFile[] images) {
-        if (!Utility.isLoggedIn()) return "redirect:/index";
+    public String addImage(@PathVariable int placeId, @RequestBody MultipartFile[] images, RedirectAttributes redirectAttrs) {
+        if (!Utility.isLoggedIn()) {
+            redirectAttrs.addFlashAttribute("imageLoggedIn", "notLoggedIn");
+            return "redirect:/detail/" + Integer.toString(placeId);
+        }
+        if (images.length == 0 || images == null || images[0].isEmpty()) {
+            return "redirect:/detail/" + Integer.toString(placeId);
+        }
         imageDao.addImages(images, placeId);
         return "redirect:/detail/" + Integer.toString(placeId);
     }
     
     @PostMapping("/{placeId}/commentsubmit")
-    public String commentSubmit(@PathVariable int placeId, @ModelAttribute Comment newComment, HttpSession session) {
-        if (!Utility.isLoggedIn()) return "redirect:/account/index";
+    public String commentSubmit(@PathVariable int placeId, @ModelAttribute Comment newComment, HttpSession session, RedirectAttributes redirectAttrs) {
+        if (!Utility.isLoggedIn()) { 
+            redirectAttrs.addFlashAttribute("commentLoggedIn", "notLoggedIn");
+            return "redirect:/detail/" + Integer.toString(placeId);
+        }
+        if (newComment.getContent().equals("")) {
+            return "redirect:/detail/" + Integer.toString(placeId);
+        }
         String currentDateTime = Utility.getCurrentDatetime();
         newComment.setCommentCreatedAt(currentDateTime);
         User user = (User) session.getAttribute("user");

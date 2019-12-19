@@ -27,6 +27,7 @@ public class UploadController {
     
     @GetMapping("/upload")
     public String uploadForm(Model model) {
+        if (!Utility.isLoggedIn()) return "redirect:/index";
         model.addAttribute("place", new Place());
         model.addAttribute("actionUrl", "/upload");
         model.addAttribute("fillActionUrl", "/upload/fill");
