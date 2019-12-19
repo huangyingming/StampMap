@@ -45,7 +45,7 @@ public class DetailController {
     
     @PostMapping("/{placeId}/image")
     public String addImage(@PathVariable int placeId, @RequestBody MultipartFile[] images) {
-        if (!Utility.isLoggedIn()) return "redirect:/account/index";
+        if (!Utility.isLoggedIn()) return "redirect:/index";
         imageDao.addImages(images, placeId);
         return "redirect:/detail/" + Integer.toString(placeId);
     }
@@ -63,8 +63,4 @@ public class DetailController {
         commentDao.addComment(newComment);
         return "redirect:/detail/" + Integer.toString(placeId);
     }
-    
-    
-    
-    
 }
