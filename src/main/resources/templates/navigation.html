@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>スタンプマップ</title>
+        <meta charset="UTF-8" />
+    </head>
+    <body>
+        <nav th:fragment="navigation" th:class="navbar">
+            <div th:class="container-fluid">
+                <div th:class="navbar-header">
+                    <button type="button" th:class="collapsed" data-toggle="collapse" data-target="#gnav">
+                       <span th:class="sr-only">Toggle navigation</span>
+                       <span th:class="icon-bar"></span>
+                       <span th:class="icon-bar"></span>
+                       <span th:class="icon-bar"></span>
+                    </button>
+                </div>
+
+                <div th:class="collapse" th:id="gnav">
+                    <ul th:class="nav navbar-nav">
+                        <li><a th:href="#">Link</a></li>
+                        <li>element</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </body>
+</html>
