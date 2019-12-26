@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>スタンプマップ</title>
+    <script th:inline="javascript" th:fragment="script">
+        /*<![CDATA[*/
+        let map;
+        let markers = [];
+        let infoWindow;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 35.66044 ,
+                    lng: 139.381741
+                },
+                zoom: 8
+            });
+            addMarkers();
+        }
+        function addMarkers() {            
+            let latlng;
+            let marker;
+            let contentString;
+            infoWindow = new google.maps.InfoWindow();
+            const placeList = /*[[${placeList}]]*/;
+            placeList.forEach(function(place) {
+                latlng = new google.maps.LatLng(
+                    place.latitude,
+                    place.longitude
+                );
+                marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    title: place.placeName
+                });
+                var imgTag = "";
+                if (place.topUrl != null) {
+                    imgTag = '<img src="' + place.topUrl + '" />';
+                }
+                var linkToDetail = '<a href="detail/' + place.placeId + '">詳細</a>';
+                contentString = '<div><p>' + place.description + '</p>' + 
+                        imgTag + linkToDetail +
+                '</div>'; 
+                infoWindow.setContent(contentString);
+                google.maps.event.addListener(marker, 'click', (function(marker, contentString, infoWindow) {
+                    return function() {
+                        infoWindow.setContent(contentString);
+                        infoWindow.open(map, marker);
+                    };
+                })(marker, contentString, infoWindow));
+                markers.push(marker);
+            });
+        }
+        /*]]>*/
+    </script>
+</head>
+</html>

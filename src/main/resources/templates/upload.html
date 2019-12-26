@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <title>スタンプマップ</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="rin/css/bootstrap.min.css" />
+    <script type="text/javascript" src="rin/js/bootstrap.min.js"></script>
     <script th:replace="../static/upload-js :: script"></script>
     <style>
         #map {
@@ -20,6 +22,7 @@
     </style>
 </head>
 <body>
+    <nav th:replace="navigation :: navigation"></nav>
     <form id="form" role="form" th:action="${actionUrl}" th:object="${place}" enctype="multipart/form-data" method="post">
         <label>スポット名</label>
         <input type="text" th:field="*{placeName}" />

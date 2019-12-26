@@ -47,4 +47,8 @@ public class AccountController {
         System.out.println(user.getUserId());
         return "index";
     }
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 }

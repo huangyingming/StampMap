@@ -3,9 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <title>スタンプマップ</title>
+    <link rel="stylesheet" type="text/css" th:href="@{rin/css/bootstrap.min.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{rin/js/bootstrap.min.js}"></script>
 </head>
 <body>
-    
+    <div th:replace="navigation :: navigation"></div>
     <form role="form" th:action="@{/login}" th:object="${user}" method="post">
         <label>ユーザ名</label>
         <input type="text" th:field="*{userName}" />

@@ -3,20 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <title>スタンプマップ</title>
+    <link rel="stylesheet" type="text/css" href="rin/css/bootstrap.min.css" />
     <style>
-        .hidden {
-            display: none;
-        }
-        
         .notLoggedIn {
             display: block;
             color: red;
             font-size: 30px;
         }
-        
     </style>
 </head>
 <body>
+    <nav th:replace="navigation :: navigation"></nav>
     <div th:object="${place}">
         <h1 th:text="*{placeName}"></h1>
         <p th:text="*{description}"></p>
@@ -69,8 +66,6 @@
                 <p th:text="${comment.content}"></p>
             </div>
         </div>
-        
-        
     </div>
 </body>
 </html>
