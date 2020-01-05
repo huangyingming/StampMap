@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <title>スタンプマップ</title>
-    <link rel="stylesheet" type="text/css" href="rin/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/rin/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/rin/js/bootstrap.min.js"></script>
     <style>
         .notLoggedIn {
             display: block;
@@ -13,9 +15,9 @@
     </style>
 </head>
 <body>
-    <nav th:replace="navigation :: navigation"></nav>
+    <nav th:replace="navigation :: navigation">placeholder</nav>
     <div th:object="${place}">
-        <h1 th:text="*{placeName}"></h1>
+        <h1 th:text="*{placeName}">placeholder</h1>
         <p th:text="*{description}"></p>
         <div th:each="publicId : *{publicIdsAndFormats}">
             <div>
@@ -31,7 +33,6 @@
         <div th:class="${imageLoggedIn}">
             <p>ログインが必要です。</p>
         </div>
-        
     </div>
     <div th:object="${place}">
         <form role="form" th:action="@{/edit}" method="get">

@@ -64,6 +64,7 @@
                 $("#address").val(results[index].formatted_address);
                 $("#latitude").val(results[index].geometry.location.lat);
                 $("#longitude").val(results[index].geometry.location.lng);
+                $("#placeName").val(results[index].name);
                 resetMarker(results[index].geometry.location);
                 map.panTo(results[index].geometry.location);
             });

@@ -47,7 +47,10 @@ public class UploadController {
         place.setUserId(Utility.getCurrentUserId());
         int lastInsertedId = placeDao.addPlace(place);
         MultipartFile[] images = place.getImages();
-        imageDao.addImages(images, lastInsertedId);
+        System.out.println(images.length);
+        if (!images[0].isEmpty()) { 
+            imageDao.addImages(images, lastInsertedId);
+        }
         model.addAttribute("insertedId", lastInsertedId);
         return "redirect:/detail/" + Integer.toString(lastInsertedId);
     }

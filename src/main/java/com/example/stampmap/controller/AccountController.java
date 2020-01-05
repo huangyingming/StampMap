@@ -17,7 +17,7 @@ public class AccountController {
     @Autowired
     private UserDao userDao;
     
-    @GetMapping("/index")
+    @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
         return "login";
@@ -40,15 +40,4 @@ public class AccountController {
         return "redirect:/index";
     }
     
-    @GetMapping("/check")
-    public String check(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        System.out.println(user.getUserName());
-        System.out.println(user.getUserId());
-        return "index";
-    }
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
 }
