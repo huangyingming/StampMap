@@ -10,8 +10,8 @@
     
     <style>
         #map {
-            width: 600px;
-            height: 600px;
+            width: 100%;
+            height: 700px;
         }
         img {
             display: block;
@@ -20,12 +20,24 @@
             width: 300px;
             height: 300px;
         }
+        
+        .container {
+            width: 95%;
+            margin: auto 0;
+        }
     </style>
      
 </head>
 <body>
     <nav th:replace="navigation :: navigation"></nav>
-    <div id="map"></div>
+    <div class="container">
+        <div th:class="${isLoggedIn} ? '' : hidden">
+            <a th:href="@{/map/visited}">
+                <button type="button">コメントしたスポットのみ表示</button>
+            </a>
+        </div>
+        <div id="map"></div>
+    </div>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNwAXlo4dArvIJa7J9nKGZUUqJfuYtqgg&callback=initMap"> </script>
 </body>
 </html>

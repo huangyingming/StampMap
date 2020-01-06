@@ -9,7 +9,7 @@
 </head>
 <body>
     <div th:replace="navigation :: navigation"></div>
-    <form role="form" th:action="@{/login}" th:object="${user}" method="post">
+    <form role="form" th:action="@{/registration}" th:object="${user}" method="post">
         <label>ユーザ名</label>
         <input type="text" th:field="*{userName}" />
         <label>パスワード</label>
@@ -17,6 +17,9 @@
         <label>パスワード（確認用）</label>
         <input type="password" th:field="*{passwordConfirm}" />
         <input type="submit" value="送信" />
+        <ul th:each="e : ${#fields.detailedErrors('*')}">
+            <li th:text="${e.message}">The error message</li>
+        </ul>
     </form>
 </body>
 </html>
