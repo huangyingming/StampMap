@@ -6,15 +6,20 @@
     <link rel="stylesheet" type="text/css" href="/rin/css/bootstrap.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="/rin/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/style.css"></link>
 </head>
 <body>
-    <div th:replace="navigation :: navigation"></div>
+    <nav th:replace="navigation :: navigation"></nav>
     <form role="form" th:action="@{/login}" th:object="${user}" method="post">
-        <label>ユーザ名</label>
-        <input type="text" th:field="*{userName}" />
-        <label>パスワード</label>
-        <input type="password" th:field="*{password}" />
-        <input type="submit" value="送信" />
+        <div class="form-group">
+            <label>ユーザ名</label>
+            <input type="text" th:field="*{userName}" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label>パスワード</label>
+            <input type="password" th:field="*{password}" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-defualt">送信</button>
     </form>
 </body>
 </html>

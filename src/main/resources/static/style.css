@@ -1,0 +1,43 @@
+/* map */
+#map {
+    width: 100%;
+    height: 700px;
+}
+img {
+    display: block;
+}
+.info-window {
+    width: 300px;
+}
+
+.info-window p {
+    width: 300px;
+}
+
+.info-window img {
+    display : block;
+    margin : 0 auto;
+}
+
+.info-window a {
+    display: block;
+    width: 30px;
+    margin: 0 auto;
+    margin-top: 8px;
+}
+
+.container {
+    width: 95%;
+    margin: auto 0;
+}
+        
+.visited {
+    margin: 0 0px 20px auto;
+    width: 260px;
+}
+/* upload */
+.editImages {
+    display: none;
+}
+
+/* login */

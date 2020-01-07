@@ -39,7 +39,7 @@
                     imgTag = '<img src="' + place.topUrl + '" />';
                 }
                 var linkToDetail = '<a href="detail/' + place.placeId + '">詳細</a>';
-                contentString = '<div><p>' + place.description + '</p>' + 
+                contentString = '<div class="info-window"><p>' + place.description + '</p>' + 
                         imgTag + linkToDetail +
                 '</div>'; 
                 infoWindow.setContent(contentString);
