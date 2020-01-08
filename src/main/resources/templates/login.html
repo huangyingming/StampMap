@@ -10,7 +10,7 @@
 </head>
 <body>
     <nav th:replace="navigation :: navigation"></nav>
-    <form role="form" th:action="@{/login}" th:object="${user}" method="post">
+    <form th:class="login-form" role="form" th:action="@{/login}" th:object="${user}" method="post">
         <div class="form-group">
             <label>ユーザ名</label>
             <input type="text" th:field="*{userName}" class="form-control"/>

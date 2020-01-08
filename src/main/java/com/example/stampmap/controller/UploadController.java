@@ -47,7 +47,6 @@ public class UploadController {
         place.setUserId(Utility.getCurrentUserId());
         int lastInsertedId = placeDao.addPlace(place);
         MultipartFile[] images = place.getImages();
-        System.out.println(images.length);
         if (!images[0].isEmpty()) { 
             imageDao.addImages(images, lastInsertedId);
         }

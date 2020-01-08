@@ -42,7 +42,6 @@ public class DetailController {
         model.addAttribute("commentList", commentList);
         model.addAttribute("newComment", new Comment());
         detailService.handleRedirectAttributes(model);
-        System.out.println(model.getAttribute("commentLoggedIn"));
         return "detail";
     }
     

@@ -43,6 +43,8 @@ public class EditController {
             model.addAttribute("imagesClass", "hidden");
             return "upload";
         }
+        String currentDatetime = Utility.getCurrentDatetime();
+        place.setPlaceUpdatedAt(currentDatetime);
         placeDao.updatePlace(place);
         return "redirect:/detail/" + Integer.toString(place.getPlaceId());
     }

@@ -51,7 +51,7 @@ public class ImageDaoImpl implements ImageDao{
         if (result.isEmpty()) return null;
         String publicId = result.get(0).get("public_id").toString();
         String format = result.get(0).get("format").toString();
-        String url = "https://res.cloudinary.com/foehammer/image/upload/w_250,h_250,c_limit/"+publicId+"."+format;
+        String url = "https://res.cloudinary.com/foehammer/image/upload/w_200,h_200,c_limit/"+publicId+"."+format;
         return url;
     }
     

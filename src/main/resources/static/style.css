@@ -7,11 +7,11 @@ img {
     display: block;
 }
 .info-window {
-    width: 300px;
+    width: 230px;
 }
 
 .info-window p {
-    width: 300px;
+    width: 230px;
 }
 
 .info-window img {
@@ -41,3 +41,58 @@ img {
 }
 
 /* login */
+.login-form {
+    width: 300px;
+    margin: 0 auto;
+}
+
+/* detail */
+.gallery {
+    margin-bottom: 20px;
+    width: 100%;
+}
+.gallery_product {
+    width: 200px !important;
+    height: 200px !important;
+    margin: 10px 10px 10px 10px;
+}
+
+.gallery_product a {
+    width: auto;
+    height: auto;
+}
+
+.image-form {
+    display: block;
+    clear: left;
+    width: 100%;
+    border: 1px solid red;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+.input-box {
+    width: auto;
+    display: inline-block;
+    float: right;
+    border: 1px solid green;
+}
+.image-form .input-box input {
+    display: inline;
+    margin-left:10px;
+    border: 1px solid yellow;
+}
+
+.edit-form {
+    display: block;
+    margin-top: 30px;
+    width: 100%;
+    border: 1px solid blue;
+    overflow: hidden;
+}
+
+.edit-form input {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    border: 1px solid orange;
+}

@@ -6,65 +6,65 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/rin/css/bootstrap.min.css" />
     <script type="text/javascript" src="/rin/js/bootstrap.min.js"></script>
-    <style>
-        .notLoggedIn {
-            display: block;
-            color: red;
-            font-size: 30px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
 </head>
 <body>
     <nav th:replace="navigation :: navigation">placeholder</nav>
-    <div th:object="${place}">
-        <h1 th:text="*{placeName}">placeholder</h1>
-        <p th:text="*{description}"></p>
-        <div th:each="publicId : *{publicIdsAndFormats}">
-            <div>
-                <a th:href="@{https://res.cloudinary.com/foehammer/image/upload/} + ${publicId}">
-                   <img th:src="@{https://res.cloudinary.com/foehammer/image/upload/w_200,h_200,c_limit/} + ${publicId}" />
-                </a>
+    <div th:class="container">
+        <div th:object="${place}">
+            <h1 th:class="detail-h1" th:text="*{placeName}">placeholder</h1>
+            <p th:class="description" th:text="*{description}"></p>
+            <p>登録日時: <span th:text="*{placeCreatedAt}"></span></p>
+            <p th:class="*{placeUpdatedAt}==null ? hidden : ''">更新日時<span th:text='*{placeUpdatedAt}'></span></p>
+            <div th:class="gallery" th:each="publicId : *{publicIdsAndFormats}">
+                 <div th:object="${publicId}" class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+                    <a th:href="@{https://res.cloudinary.com/foehammer/image/upload/} + ${publicId}">
+                       <img th:src="@{https://res.cloudinary.com/foehammer/image/upload/w_200,h_200,c_limit/} + ${publicId}" />
+                    </a>
+                </div>
+            </div>
+            <form class="image-form" role="form" th:action="@{__${#httpServletRequest.requestURI}__/image}" enctype="multipart/form-data" method="post" >
+                <div class="input-box">
+                    <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg, image/jpeg" th:field="*{images}" />
+                    <input type="submit" value="画像の追加" />
+                </div>
+            </form>
+            <div th:class="${imageLoggedIn}">
+                <p>ログインが必要です。</p>
             </div>
         </div>
-        <form role="form" th:action="@{__${#httpServletRequest.requestURI}__/image}" enctype="multipart/form-data" method="post" >
-            <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg, image/jpeg" th:field="*{images}" />
-            <input type="submit" value="画像の追加" />
-        </form>
-        <div th:class="${imageLoggedIn}">
+        <div th:class="edit-form" th:object="${place}">
+            <form role="form" th:action="@{/edit}" method="get">
+                <input type="hidden" th:field="*{placeId}" />
+                <input type="hidden" th:field="*{placeName}" />
+                <input type="hidden" th:field="*{description}" />
+                <input type="hidden" th:field="*{address}" />
+                <input type="hidden" th:field="*{placeCreatedAt}" />
+                <input type="hidden" th:field="*{placeUpdatedAt}" />
+                <input type="hidden" th:field="*{latitude}" />
+                <input type="hidden" th:field="*{longitude}" />
+                <input type="hidden" th:field="*{userId}" />
+                <input type="submit" th:value="編集" />
+            </form>
+        </div>
+        <div th:class="${editLoggedIn}">
             <p>ログインが必要です。</p>
         </div>
-    </div>
-    <div th:object="${place}">
-        <form role="form" th:action="@{/edit}" method="get">
-            <input type="hidden" th:field="*{placeId}" />
-            <input type="hidden" th:field="*{placeName}" />
-            <input type="hidden" th:field="*{description}" />
-            <input type="hidden" th:field="*{address}" />
-            <input type="hidden" th:field="*{placeCreatedAt}" />
-            <input type="hidden" th:field="*{placeUpdatedAt}" />
-            <input type="hidden" th:field="*{latitude}" />
-            <input type="hidden" th:field="*{longitude}" />
-            <input type="hidden" th:field="*{userId}" />
-            <input type="submit" th:value="編集（投稿ユーザのみ）" />
-        </form>
-    </div>
-    <div th:class="${editLoggedIn}">
-        <p>ログインが必要です。</p>
-    </div>
-    <div>
-        <form role="form" th:action="@{__${#httpServletRequest.requestURI}__/commentsubmit}" th:object="${newComment}" method="post">
-            <label>コメント</label>
-            <textarea th:field="*{content}" />
-            <input type="submit" value="送信" />
-        </form>
-        <div th:class="${commentLoggedIn}">
-            <p>ログインが必要です。</p>
-        </div>
-        <div th:each="comment : ${commentList}">
-            <div>
-                <p th:text="${comment.userName}">anonymous</p>
-                <p th:text="${comment.commentUpdatedAt != null} ? ${comment.commentUpdatedAt} : ${comment.commentCreatedAt}">-</p>
-                <p th:text="${comment.content}"></p>
+        <div>
+            <form role="form" th:action="@{__${#httpServletRequest.requestURI}__/commentsubmit}" th:object="${newComment}" method="post">
+                <label>コメント</label>
+                <textarea th:field="*{content}" />
+                <input type="submit" value="送信" />
+            </form>
+            <div th:class="${commentLoggedIn}">
+                <p>ログインが必要です。</p>
+            </div>
+            <div th:each="comment : ${commentList}">
+                <div>
+                    <p th:text="${comment.userName}">anonymous</p>
+                    <p th:text="${comment.commentUpdatedAt != null} ? ${comment.commentUpdatedAt} : ${comment.commentCreatedAt}">-</p>
+                    <p th:text="${comment.content}"></p>
+                </div>
             </div>
         </div>
     </div>
