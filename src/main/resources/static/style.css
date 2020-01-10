@@ -3,9 +3,11 @@
     width: 100%;
     height: 700px;
 }
+
 img {
     display: block;
 }
+
 .info-window {
     width: 230px;
 }
@@ -40,8 +42,25 @@ img {
     display: none;
 }
 
+.upload-form label {
+    width: 80px;
+}
+
+.upload-form textarea {
+    width: 400px;
+    height: 150px;
+}
+
+.place-name-form input {
+    margin-right: 20px;
+}
+
+.submit {
+    margin-top: 10px;
+}
+
 /* login */
-.login-form {
+.login-form, .registration-form {
     width: 300px;
     margin: 0 auto;
 }
@@ -50,11 +69,13 @@ img {
 .gallery {
     margin-bottom: 20px;
     width: 100%;
+    overflow: hidden;
 }
+
 .gallery_product {
     width: 200px !important;
     height: 200px !important;
-    margin: 10px 10px 10px 10px;
+    margin: 0 10px 0 10px !important;
 }
 
 .gallery_product a {
@@ -69,6 +90,7 @@ img {
     margin-bottom: 30px;
     overflow: hidden;
 }
+
 .input-box {
     width: auto;
     display: inline-block;
@@ -91,3 +113,47 @@ img {
     margin-left: auto;
     margin-right: 0;
 }
+
+.commentLoggedIn, .editLoggedIn, .imageLoggedIn {
+    color: red;
+}
+
+.comment-section {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.comment-section form{
+    margin-bottom: 20px;
+}
+
+.comments {
+    width: 100%;
+}
+
+.comments tr {
+    width: 100%;
+}
+
+.comments tr th {
+    display: block;
+    width: 100%;
+    color: gray;
+}
+
+.comments tr .comment-date {
+    display: inline-block;
+    float:right;
+    
+}
+
+.comments tr td {
+    display: block; 
+}
+
+.content-input {
+    width: 300px;
+    height: 100px;
+}
+
+

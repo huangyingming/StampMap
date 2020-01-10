@@ -1,21 +1,23 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8" />
+<head th:replace="head :: head">
     <title>スタンプマップ</title>
-    <link rel="stylesheet" type="text/css" href="/rin/css/bootstrap.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/rin/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div th:replace="navigation :: navigation"></div>
-    <form role="form" th:action="@{/registration}" th:object="${user}" method="post">
-        <label>ユーザ名</label>
-        <input type="text" th:field="*{userName}" />
-        <label>パスワード</label>
-        <input type="password" th:field="*{password}" />
-        <label>パスワード（確認用）</label>
-        <input type="password" th:field="*{passwordConfirm}" />
+    <nav th:replace="navigation :: navigation"></nav>
+    <form th:class="registration-form" role="form" th:action="@{/registration}" th:object="${user}" method="post">
+        <div th:class="form-group">
+            <label>ユーザ名</label>
+            <input class="form-control" type="text" th:field="*{userName}" />
+        </div>
+        <div th:class="form-group">
+            <label>パスワード</label>
+            <input class="form-control" type="password" th:field="*{password}" />
+        </div>
+        <div th:class="form-group">
+            <label>パスワード（確認用）</label>
+            <input class="form-control" type="password" th:field="*{passwordConfirm}" />
+        </div>
         <input type="submit" value="送信" />
         <ul th:each="e : ${#fields.detailedErrors('*')}">
             <li th:text="${e.message}">The error message</li>
