@@ -1,17 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8" />
+<head th:replace="commons/head">
     <title>スタンプマップ</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/rin/css/bootstrap.min.css" />
-    <script type="text/javascript" src="/rin/js/bootstrap.min.js"></script>
-    <script th:replace="../static/map-js :: script"></script>
-    <link rel="stylesheet" type="text/css" href="/style.css"></link>
-     
+    
 </head>
 <body>
-    <nav th:replace="navigation :: navigation"></nav>
+    <nav th:replace="commons/navigation :: navigation"></nav>
     <div class="container">
         <div th:class="${isLoggedIn} ? visited : hidden">
             <a th:href="@{/map/visited}">
@@ -19,7 +13,9 @@
             </a>
         </div>
         <div id="map"></div>
+        <footer th:replace="commons/footer :: footer"></footer>
     </div>
+    <script th:replace="../static/map-js :: script"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNwAXlo4dArvIJa7J9nKGZUUqJfuYtqgg&callback=initMap"> </script>
 </body>
 </html>

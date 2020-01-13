@@ -66,8 +66,15 @@ img {
 }
 
 /* detail */
+.description {
+    margin-top: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+}
+
 .gallery {
-    margin-bottom: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     width: 100%;
     overflow: hidden;
 }
@@ -87,6 +94,7 @@ img {
     display: block;
     clear: left;
     width: 100%;
+    margin-top: 20px;
     margin-bottom: 30px;
     overflow: hidden;
 }
@@ -94,33 +102,40 @@ img {
 .input-box {
     width: auto;
     display: inline-block;
-    float: right;
 }
 .image-form .input-box input {
     display: inline;
-    margin-left:10px;
+    margin-right: 10px;
 }
 
 .edit-form {
     display: block;
     margin-top: 30px;
     width: 100%;
-    overflow: hidden;
+    margin-bottom: 10px;
 }
 
 .edit-form input {
     display: block;
-    margin-left: auto;
-    margin-right: 0;
 }
 
-.commentLoggedIn, .editLoggedIn, .imageLoggedIn {
+.place-created-at, .place-updated-at {
+}
+
+.error {
     color: red;
 }
 
+.right {
+    text-align: right;
+}
+
+.image-error {
+    margin-top: -20px;
+    margin-bottom: 10px;
+}
 .comment-section {
-    width: 100%;
-    margin: 0 auto;
+    width: 70%;
 }
 
 .comment-section form{
@@ -129,6 +144,8 @@ img {
 
 .comments {
     width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
 }
 
 .comments tr {
@@ -144,16 +161,27 @@ img {
 .comments tr .comment-date {
     display: inline-block;
     float:right;
-    
 }
 
 .comments tr td {
     display: block; 
+    clear: right;
 }
 
 .content-input {
     width: 300px;
     height: 100px;
 }
-
+/* footer */
+footer {
+    margin-top: 20px;
+    width: 100%;
+    display: block;
+    
+}
+footer img {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+}
 

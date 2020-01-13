@@ -1,27 +1,30 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="head :: head">
+<head th:replace="commons/head :: head">
     <title>スタンプマップ</title>
 </head>
 <body>
-    <nav th:replace="navigation :: navigation"></nav>
-    <form th:class="registration-form" role="form" th:action="@{/registration}" th:object="${user}" method="post">
-        <div th:class="form-group">
-            <label>ユーザ名</label>
-            <input class="form-control" type="text" th:field="*{userName}" />
-        </div>
-        <div th:class="form-group">
-            <label>パスワード</label>
-            <input class="form-control" type="password" th:field="*{password}" />
-        </div>
-        <div th:class="form-group">
-            <label>パスワード（確認用）</label>
-            <input class="form-control" type="password" th:field="*{passwordConfirm}" />
-        </div>
-        <input type="submit" value="送信" />
-        <ul th:each="e : ${#fields.detailedErrors('*')}">
-            <li th:text="${e.message}">The error message</li>
-        </ul>
-    </form>
+    <nav th:replace="commons/navigation :: navigation"></nav>
+    <div class="container">
+        <form th:class="registration-form" role="form" th:action="@{/registration}" th:object="${user}" method="post">
+            <div th:class="form-group">
+                <label>ユーザ名</label>
+                <input class="form-control" type="text" th:field="*{userName}" />
+            </div>
+            <div th:class="form-group">
+                <label>パスワード</label>
+                <input class="form-control" type="password" th:field="*{password}" />
+            </div>
+            <div th:class="form-group">
+                <label>パスワード（確認用）</label>
+                <input class="form-control" type="password" th:field="*{passwordConfirm}" />
+            </div>
+            <input type="submit" value="送信" />
+            <ul th:each="e : ${#fields.detailedErrors('*')}">
+                <li th:text="${e.message}">The error message</li>
+            </ul>
+        </form>
+        <footer th:replace="commons/footer :: footer"></footer>
+    </div>
 </body>
 </html>

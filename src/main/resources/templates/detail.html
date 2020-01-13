@@ -1,22 +1,15 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8" />
+<head th:replace="commons/head">
     <title>スタンプマップ</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/rin/css/bootstrap.min.css" />
-    <script type="text/javascript" src="/rin/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/style.css" />
 </head>
 <body>
-    <nav th:replace="navigation :: navigation">placeholder</nav>
+    <nav th:replace="commons/navigation :: navigation">placeholder</nav>
     <div th:class="container">
         <div th:object="${place}">
             <h1 th:class="detail-h1" th:text="*{placeName}">placeholder</h1>
             <p th:class="description" th:text="*{description}"></p>
             <p th:class="address">住所: <span th:text="*{address}"></span></p>
-            <p>登録日時: <span th:text="*{placeCreatedAt}"></span></p>
-            <p th:class="*{placeUpdatedAt}==null ? hidden : ''">更新日時<span th:text='*{placeUpdatedAt}'></span></p>
             <div th:class="gallery">
                  <div th:each="publicId : *{publicIdsAndFormats}" class="gallery_product col-lg-2 col-md-2 col-sm-4 col-xs-6 filter hdpe">
                     <a th:href="@{https://res.cloudinary.com/foehammer/image/upload/} + ${publicId}">
@@ -30,7 +23,9 @@
                     <input type="submit" value="画像の追加" />
                 </div>
             </form>
-            <div th:class="${imageLoggedIn}">
+            <p th:class="place-created-at">登録日時: <span th:text="*{placeCreatedAt}"></span></p>
+            <p th:class="*{placeUpdatedAt}==null ? hidden : 'place-updated-at'">更新日時<span th:text='*{placeUpdatedAt}'></span></p>
+            <div class="error right image-error" th:classappend="${imageLoggedIn}">
                 <p>ログインが必要です。</p>
             </div>
         </div>
@@ -48,7 +43,7 @@
                 <input type="submit" th:value="編集" />
             </form>
         </div>
-        <div th:class="${editLoggedIn}">
+        <div class="error right" th:classappend="${editLoggedIn}">
             <p>ログインが必要です。</p>
         </div>
         <div class="comment-section">
@@ -58,7 +53,7 @@
                 <textarea th:class="content-input" th:field="*{content}" />
                 <input type="submit" value="送信" />
             </form>
-            <div th:class="${commentLoggedIn}">
+            <div th:class="${commentLoggedIn}" th:classappend="error">
                 <p>ログインが必要です。</p>
             </div>
             <table th:class="comments" th:each="comment : ${commentList}">
@@ -69,9 +64,10 @@
                     </th>
                     
                     <td th:class="comment-content" th:text="${comment.content}"></td>
-                </div>
+                
             </table>
         </div>
+        <footer th:replace="commons/footer :: footer"></footer>
     </div>
 </body>
 </html>

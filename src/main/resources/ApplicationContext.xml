@@ -1,10 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:sec="http://www.springframework.org/schema/security"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
     http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <-- ①データソースの定義 -->
     <bean id="dataSource"
@@ -29,4 +32,13 @@
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="100000"/>
     </bean>
+    
+    
+    <sec:authentication-manager>
+        <sec:authentication-provider>
+            <sec:user-service>
+                <sec:user name="hoge" password="HOGE" authorities="ROLE_USER" />
+            </sec:user-service>
+        </sec:authentication-provider>
+    </sec:authentication-manager>
 </beans>
