@@ -31,4 +31,12 @@ public class Utility {
         } 
         return currentUser.getUserId();
     }
+    
+    public static boolean isAdmin() {
+        User user = getCurrentUser();
+        if (user == null || !user.getUserName().equals("admin")) {
+            return false;
+        }
+        return true;
+    }
 }

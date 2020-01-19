@@ -1,14 +1,12 @@
 package com.example.stampmap.service;
 import com.example.stampmap.dao.ImageDao;
 import com.example.stampmap.dao.PlaceDao;
-import com.example.stampmap.dao.UserDao;
 import com.example.stampmap.dto.Place;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
 
 @Service

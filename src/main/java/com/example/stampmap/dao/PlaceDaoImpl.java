@@ -128,4 +128,25 @@ public class PlaceDaoImpl implements PlaceDao {
         System.out.println(resultList.size());
         return placeList;
     }
+    
+    public void deletePlace(int placeId) {
+        String sql = "DELETE from places where place_id=?";
+        jdbcTemplate.update(sql, placeId);
+    }
+    
+    public List<Place> readPlacesWithQuery(String query) {
+        String sql = "SELECT DISTINCT * FROM places LEFT JOIN comments ON places.place_id = comments.place_id "
+                + "WHERE places.place_name like ? OR places.description like ? OR places.address like ? OR "
+                + "comments.content like ? GROUP BY places.place_id, places.place_name, places.address";
+        String strSearch = query.replaceAll("%","\\\\%").replaceAll("_","\\\\_");
+        strSearch = "%" + strSearch + "%";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, strSearch, strSearch, strSearch, strSearch);
+        List<Place> placeList = new ArrayList<Place>();
+        for (int i = 0; i < resultList.size(); i++) {
+            Map<String, Object> row = resultList.get(i);
+            Place place = makePlaceFromRow(row);
+            placeList.add(place);
+        }
+        return placeList;
+    }
 }

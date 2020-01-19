@@ -26,6 +26,29 @@ public class CommentDaoImpl implements CommentDao {
         return commentList;
     }
     
+    public List<Comment> readComments() {
+        String sql = "SELECT * FROM comments ORDER BY comment_created_at ASC";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql);
+        List<Comment> commentList = new ArrayList<Comment>();
+        for (int i = 0; i < resultList.size(); i++) {
+            commentList.add(makeCommentFromRow(resultList.get(i)));
+        }
+        return commentList;
+    }
+    
+    public List<Comment> readCommentsWithQuery(String query) {
+        String sql = "SELECT * FROM comments WHERE comments.user_name like ? OR comments.content like ?";
+        String strSearch = query.replaceAll("%","\\\\%").replaceAll("_","\\\\_");
+        strSearch = "%" + strSearch + "%";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, strSearch, strSearch);
+        List<Comment> comments = new ArrayList<Comment>();
+        for (int i = 0; i < resultList.size(); i++) {
+            Comment comment = makeCommentFromRow(resultList.get(i));
+            comments.add(comment);
+        }
+        return comments;
+    }
+    
     private Comment makeCommentFromRow(Map<String, Object> row) {
         Comment comment = new Comment();
         comment.setCommentId(Integer.valueOf(row.get("comment_id").toString()));
@@ -44,5 +67,10 @@ public class CommentDaoImpl implements CommentDao {
         String sql = "INSERT INTO comments VALUES(?,?,?,?,?,?,?)";
         jdbcTemplate.update(sql, null, comment.getPlaceId(), comment.getContent(), comment.getUserId(), comment.getUserName(), comment.getCommentCreatedAt(),
                 comment.getCommentUpdatedAt());
+    }
+    
+    public void deleteComment(int commentId) {
+        String sql = "DELETE FROM comments WHERE comment_id = ?";
+        jdbcTemplate.update(sql, commentId);
     }
 }

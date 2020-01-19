@@ -185,3 +185,37 @@ footer img {
     margin-right: 0;
 }
 
+/* placelist */
+.page {
+    text-align: center;
+}
+.page form {
+    display: inline-block;
+    width: auto;
+    margin-bottom: 20px;
+}
+
+.page table {
+    width: auto;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.page table tr {
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.page table tr {
+    border-bottom: 1px solid black;
+}
+
+.page table th, .page table td {
+    border-right: 1px solid black;
+}
+
+.page .pagination-div {
+    display:inline-block;
+    width: auto;
+}

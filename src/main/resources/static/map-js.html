@@ -14,7 +14,7 @@
                     lat: 35.66044 ,
                     lng: 139.381741
                 },
-                zoom: 8
+                zoom: 10
             });
             addMarkers();
         }
@@ -38,15 +38,16 @@
                 if (place.topUrl != null) {
                     imgTag = '<img src="' + place.topUrl + '" />';
                 }
-                var linkToDetail = '<a href="detail/' + place.placeId + '">詳細</a>';
+                var linkToDetail = '<a href="/detail/' + place.placeId + '">詳細</a>';
                 contentString = '<div class="info-window"><p>' + place.description + '</p>' + 
                         imgTag + linkToDetail +
                 '</div>'; 
-                infoWindow.setContent(contentString);
+                
                 google.maps.event.addListener(marker, 'click', (function(marker, contentString, infoWindow) {
                     return function() {
                         infoWindow.setContent(contentString);
                         infoWindow.open(map, marker);
+                        console.log("Marker clicked");
                     };
                 })(marker, contentString, infoWindow));
                 markers.push(marker);
