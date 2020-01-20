@@ -2,8 +2,10 @@ package com.example.stampmap.dao;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.stampmap.dto.Image;
 import com.example.stampmap.Utility;
-import java.io.IOException; 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +62,39 @@ public class ImageDaoImpl implements ImageDao{
         RowMapper rowMapper = new ColumnMapRowMapper();
         List<Map<String, Object>> result = jdbcTemplate.query(sql, rowMapper, placeId);
         return result;
+    }
+    
+    public List<Image> readImages() {
+        String sql = "SELECT * FROM images";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql);
+        List<Image> imageList = new ArrayList();
+        for (int i = 0; i < resultList.size(); i++) {
+            Map<String, Object> row = resultList.get(i);
+            Image image = makeImageFromRow(row);
+            imageList.add(image);
+        }
+        return imageList;
+    }
+    
+    private Image makeImageFromRow(Map<String, Object> row) {
+        Image image = new Image();
+        image.setImageId(Integer.valueOf(row.get("image_id").toString()));
+        image.setPlaceId(Integer.valueOf(row.get("place_id").toString()));
+        image.setPublicId(row.get("public_id").toString());
+        image.setFormat(row.get("format").toString());
+        image.setUserId(Integer.valueOf(row.get("user_id").toString()));
+        image.setImageCreatedAt(row.get("image_created_at").toString());
+        return image;
+    }
+    
+    public void deleteImage(int imageId, String publicId) {
+        String sql = "DELETE FROM images WHERE image_id=?";
+        System.out.println(publicId);
+        jdbcTemplate.update(sql, imageId);
+        try {
+            Map map = cloudinary.uploader().destroy("stamps/"+ publicId, ObjectUtils.emptyMap());
+        } catch(IOException e) {
+            System.out.println("IOException at deleteImage.");
+        }
     }
 }

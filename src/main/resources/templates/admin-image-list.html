@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons/head">
+    <title>スタンプマップ</title>
+</head>
+    <body>
+        <nav th:replace="commons/navigation :: navigation"></nav>
+        <div th:class="container">
+            <div th:class="page">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>placeId</th>
+                            <th>画像</th>
+                            <th>userId</th>
+                            <th>登録日時</th>
+                            <th>削除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="image : ${imagePage.content}" th:object="${image}">
+                            <td><a th:href="@{/detail/} + *{placeId}"><span th:text="*{placeId}"></span></a></td>
+                            <td><a th:href="@{https://res.cloudinary.com/foehammer/image/upload/} + *{publicId} + '.' + *{format}">
+                                <img th:src="@{https://res.cloudinary.com/foehammer/image/upload/w_200,h_200,c_limit/} + *{publicId} + '.' + *{format}" />
+                                </a>
+                            </td>
+                            <td th:text="*{userId}"></td>
+                            <td th:text="*{imageCreatedAt}"></td>
+                            <td>
+                                <form role="form" th:method="post" th:action="@{/admin/deleteimage/} + *{imageId}+'/'+ *{publicId}">
+                                    <button type="submit">削除</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div th:if="${imagePage.totalPages > 0}" class="pagination-div"
+                    th:each="pageNumber : ${pageNumbers}">
+                    <a th:href="@{/imagelist(size=${imagePage.size}, page=${pageNumber})}"
+                        th:text=${pageNumber}
+                        th:class="${pageNumber==imagePage.number + 1} ? active"></a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

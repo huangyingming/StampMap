@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons/head">
+    <title>スタンプマップ</title>
+</head>
+    <body>
+        <nav th:replace="commons/navigation :: navigation"></nav>
+        <div th:class="container">
+            <div th:class="page">
+                <form role="form" th:action="@{/admin/userlist}" th:method="get">
+                    <input type="text" name="query" th:value="${query}"/>
+                    <input type="submit" value="検索" />
+                </form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>userId</th>
+                            <th>ユーザ名</th>
+                            <th>削除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${userPage.content}" th:object="${user}">
+                            <th th:text="*{userId}"></th>
+                            <td th:text="*{userName}"></td>
+                            <td>
+                                <form role="form" th:method="post" th:action="@{/admin/deleteuser/} + *{userId}">
+                                    <button type="submit">削除</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <div th:if="${userPage.totalPages > 0}" class="pagination-div"
+                    th:each="pageNumber : ${pageNumbers}">
+                    <a th:href="@{/userlist(size=${userPage.size}, page=${pageNumber})}"
+                        th:text=${pageNumber}
+                        th:class="${pageNumber==userPage.number + 1} ? active"></a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -4,6 +4,7 @@ import com.example.stampmap.dto.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,40 @@ public class UserDaoImpl implements UserDao {
         int lastInsertedId = keyHolder.getKey().intValue();
         user.setUserId(lastInsertedId);
         return user;
+    }
+    
+    public List<User> readUsers() {
+        String sql = "SELECT * FROM users";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql);
+        List<User> userList = new ArrayList();
+        for (int i = 0; i < resultList.size(); i++) {
+            Map<String, Object> row = resultList.get(i);
+            User user = makeUserFromRow(row);
+            userList.add(user);
+        }
+        return userList;
+    }
+    
+    public List<User> readUsersWithQuery(String query) {
+        String sql = "SELECT * FROM users WHERE user_name like ?";
+        String strSearch = query.replaceAll("%","\\\\%").replaceAll("_","\\\\_");
+        strSearch = "%" + strSearch + "%";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, strSearch);
+        List<User> userList = new ArrayList();
+        for (int i = 0; i < resultList.size(); i++) {
+            Map<String, Object> row = resultList.get(i);
+            User user = makeUserFromRow(row);
+            userList.add(user);
+        }
+        return userList;
+    }
+    
+    public void deleteUser(int userId) {
+        String sql = "DELETE FROM images WHERE user_id = ?";
+        jdbcTemplate.update(sql, userId);
+        sql = "DELETE FROM comments WHERE user_id = ?";
+        jdbcTemplate.update(sql, userId);
+        sql = "DELETE FROM users WHERE user_id = ?";
+        jdbcTemplate.update(sql, userId);
     }
 }
