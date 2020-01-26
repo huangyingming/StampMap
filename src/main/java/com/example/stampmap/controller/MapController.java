@@ -1,4 +1,5 @@
 package com.example.stampmap.controller;
+
 import com.example.stampmap.Utility;
 import com.example.stampmap.dao.ImageDao;
 import com.example.stampmap.dao.PlaceDao;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
 @Controller
 public class MapController {
     @Autowired
@@ -15,7 +17,7 @@ public class MapController {
     @Autowired
     private ImageDao imageDao;
     
-    @GetMapping("/map")
+    @GetMapping(value={"/map", "/"})
     public String mapRender(Model model) {
         List<Place> placeList = placeDao.readPlaces();
         this.setPlaceList(model, placeList);

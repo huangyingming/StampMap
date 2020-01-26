@@ -57,7 +57,7 @@ public class ImageDaoImpl implements ImageDao{
         return url;
     }
     
-    public List<Map<String, Object>> readPublicIdForDetail(int placeId) {
+    public List<Map<String, Object>> readPublicIdAndFormatForDetail(int placeId) {
         String sql = "SELECT public_id, format FROM images WHERE place_id=?";
         RowMapper rowMapper = new ColumnMapRowMapper();
         List<Map<String, Object>> result = jdbcTemplate.query(sql, rowMapper, placeId);
@@ -97,4 +97,25 @@ public class ImageDaoImpl implements ImageDao{
             System.out.println("IOException at deleteImage.");
         }
     }
+    
+    public List<String> readPublicId(int placeId) {
+        String sql = "SELECT public_id FROM images WHERE place_id = ?";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, placeId);
+        List<String> publicIdList = new ArrayList();
+        for (int i = 0; i < resultList.size(); i++) {
+            String publicId = resultList.get(i).get("public_id").toString();
+            publicIdList.add(publicId);
+        }
+        return publicIdList;
+    }
+    
+    public void deleteImage(String publicId) {
+        try {
+            cloudinary.uploader().destroy("stamps/" + publicId, ObjectUtils.emptyMap());
+        } catch(IOException e) {
+            System.out.println("IOException at deleteImages()");
+        }
+        String sql = "DELETE FROM images WHERE public_id = ?";
+        jdbcTemplate.update(sql, publicId);
+;    }
 }

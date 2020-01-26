@@ -16,7 +16,7 @@ public class DetailService {
     @Autowired
     private PlaceDao placeDao;
     public Place populatePlace(int placeId) {
-        List<Map<String, Object>> publicIdList = imageDao.readPublicIdForDetail(placeId);
+        List<Map<String, Object>> publicIdList = imageDao.readPublicIdAndFormatForDetail(placeId);
         Place place = placeDao.readPlace(placeId);
         List<String> publicIds = new ArrayList<String>();
         for (int i = 0; i < publicIdList.size(); i++) {

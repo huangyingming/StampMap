@@ -9,4 +9,5 @@ public interface CommentDao {
     List<Comment> readCommentsWithQuery(String query);
     void addComment(Comment comment);
     void deleteComment(int commentId);
+    void deleteCommentWithPlaceId(int placeId);
 }

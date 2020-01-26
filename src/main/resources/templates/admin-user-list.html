@@ -16,6 +16,7 @@
                         <tr>
                             <th>userId</th>
                             <th>ユーザ名</th>
+                            <th>削除日時</th>
                             <th>削除</th>
                         </tr>
                     </thead>
@@ -23,8 +24,9 @@
                         <tr th:each="user : ${userPage.content}" th:object="${user}">
                             <th th:text="*{userId}"></th>
                             <td th:text="*{userName}"></td>
+                            <td th:text="*{userDeletedAt == null} ? 'null' : *{userDeletedAt}"></td>
                             <td>
-                                <form role="form" th:method="post" th:action="@{/admin/deleteuser/} + *{userId}">
+                                <form th:class="*{userDeletedAt == null} ? '' : hidden" role="form" th:method="post" th:action="@{/admin/deleteuser/} + *{userId}">
                                     <button type="submit">削除</button>
                                 </form>
                             </td>

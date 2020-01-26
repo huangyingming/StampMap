@@ -13,4 +13,5 @@ public interface PlaceDao {
         List<Place> readPlacesForVisited(int userId);
         void deletePlace(int placeId);
         List<Place> readPlacesWithQuery(String query);
+        
 }

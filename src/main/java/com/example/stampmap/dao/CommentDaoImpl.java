@@ -73,4 +73,9 @@ public class CommentDaoImpl implements CommentDao {
         String sql = "DELETE FROM comments WHERE comment_id = ?";
         jdbcTemplate.update(sql, commentId);
     }
+    
+    public void deleteCommentWithPlaceId(int placeId) {
+        String sql = "DELETE FROM comments WHERE place_id = ?";
+        jdbcTemplate.update(sql, placeId);
+    }
 }

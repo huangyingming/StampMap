@@ -154,5 +154,12 @@ public class AdminController {
     @PostMapping("/deleteuser/{userId}")
     public String deleteUser(@PathVariable int userId) {
         userDao.deleteUser(userId);
+        return "redirect:/admin/userlist";
+    }
+    
+    @PostMapping("/deleteplace/{placeId}")
+    public String deletePlace(@PathVariable int placeId) {
+        adminService.deletePlace(placeId);
+        return "redirect:/admin/placelist";
     }
 }

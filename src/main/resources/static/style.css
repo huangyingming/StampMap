@@ -219,3 +219,8 @@ footer img {
     display:inline-block;
     width: auto;
 }
+
+.error-list {
+    color: red;
+    margin-top: 10px;
+}

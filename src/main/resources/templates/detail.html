@@ -20,7 +20,7 @@
             <form class="image-form" role="form" th:action="@{__${#httpServletRequest.requestURI}__/image}" enctype="multipart/form-data" method="post" >
                 <div class="input-box">
                     <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg, image/jpeg" th:field="*{images}" />
-                    <input type="submit" value="画像の追加" />
+                    <input type="submit" value="画像の追加" /><span>（10MB以上は403エラーになります）</span>
                 </div>
             </form>
             <p th:class="place-created-at">登録日時: <span th:text="*{placeCreatedAt}"></span></p>

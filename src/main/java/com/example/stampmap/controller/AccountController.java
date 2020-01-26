@@ -1,10 +1,12 @@
 package com.example.stampmap.controller;
 
 
+import com.example.stampmap.Utility;
 import com.example.stampmap.dao.UserDao;
 import com.example.stampmap.dto.User;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -56,9 +58,44 @@ public class AccountController {
             return "registration";
         }
         else {
-            User addedUser = userDao.addUser(user);
-            session.setAttribute("user", addedUser);
-            return "redirect:/map";
+            try {
+                User addedUser = userDao.addUser(user);
+                session.setAttribute("user", addedUser);
+                return "redirect:/map";
+            } catch(DataIntegrityViolationException e) {
+                result.rejectValue("userName", "uniqueConstraintViolation", "error");
+                return "registration";
+            }
         }
     }
+    
+    @GetMapping("/account")
+    public String renderAccount(Model model) {
+        if (!Utility.isLoggedIn()) return "redirect:/login";
+        User user = Utility.getCurrentUser();
+        model.addAttribute("user", user);
+        model.addAttribute("isLoggedIn", true);
+        return "registration";
+    }
+    
+    @PostMapping("/account")
+    public String update(Model model, @Validated User user, BindingResult result, HttpSession session) {
+        if (!user.isSamePassword()) {
+            result.rejectValue("passwordConfirm", "passwordConfirmDifferent", "error");
+        }
+        if (result.hasErrors()) {
+            return "registration";
+        }
+        else {
+            try {
+                userDao.updateUser(user);
+                session.setAttribute("user", user);
+                return "redirect:/map";
+            } catch(DataIntegrityViolationException e) {
+                result.rejectValue("userName", "uniqueConstraintViolation", "error");
+                return "registration";
+            }
+        }
+    }
+    
 }

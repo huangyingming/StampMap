@@ -2,6 +2,7 @@ package com.example.stampmap.service;
  
 import com.example.stampmap.dao.CommentDao;
 import com.example.stampmap.dao.ImageDao;
+import com.example.stampmap.dao.PlaceDao;
 import com.example.stampmap.dao.UserDao;
 import com.example.stampmap.dto.Comment;
 import com.example.stampmap.dto.Image;
@@ -25,6 +26,8 @@ public class AdminService {
     private CommentDao commentDao;
     @Autowired 
     private ImageDao imageDao;
+    @Autowired
+    private PlaceDao placeDao;
     @Autowired
     private UserDao userDao;
     
@@ -102,5 +105,12 @@ public class AdminService {
         Page<User> userPage
           = new PageImpl<User>(list, PageRequest.of(currentPage, pageSize), users.size());
         return userPage;
+    }
+    
+    public void deletePlace(int placeId) {
+        List<String> publicIdList = imageDao.readPublicId(placeId);
+        for (String publicId : publicIdList) imageDao.deleteImage(publicId);
+        commentDao.deleteCommentWithPlaceId(placeId);
+        placeDao.deletePlace(placeId);
     }
 }

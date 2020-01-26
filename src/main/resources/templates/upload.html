@@ -29,11 +29,11 @@
             </div>
             <div th:class="${imagesClass}" class="form-group">
                 <label>画像</label>
-                <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg" th:field="*{images}" />
+                <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg" th:field="*{images}" /><span>（10MB以上は403エラーになります）</span>
             </div>
             <input type="hidden" th:field="*{placeId}" />
             <input th:class="submit" type="submit" value="送信" />
-            <ul th:each="e : ${#fields.detailedErrors('*')}">
+            <ul th:class="error-list" th:each="e : ${#fields.detailedErrors('*')}">
                 <li th:text="${e.message}">The error message</li>
             </ul>
         </form>

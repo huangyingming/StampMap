@@ -8,7 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ImageDao {
     void addImages(MultipartFile[] images, int placeId);
     String readImageURLForPopUp(int placeId);
-    List<Map<String, Object>> readPublicIdForDetail(int placeId);
+    List<Map<String, Object>> readPublicIdAndFormatForDetail(int placeId);
+    List<String> readPublicId(int placeId);
     List<Image> readImages();
     void deleteImage(int imageId, String publicId);
+    void deleteImage(String publicId);
 }

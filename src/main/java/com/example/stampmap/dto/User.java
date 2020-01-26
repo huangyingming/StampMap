@@ -18,6 +18,7 @@ public class User {
     @Pattern(regexp="[A-Za-z0-9]+")
     private String password;
     private String passwordConfirm;
+    private String userDeletedAt;
     public boolean isSamePassword() {
         if (password.equals(passwordConfirm)) {
             return true;
