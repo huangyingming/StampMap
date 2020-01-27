@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 @Controller
 public class AccountController {
@@ -22,18 +24,22 @@ public class AccountController {
     private UserDao userDao;
     
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(Model model, @ModelAttribute("error") Boolean error) {
+        if (error != null && error) {
+            model.addAttribute("hasError", true);
+        }
         model.addAttribute("user", new User());
         return "login";
     }
     
     @PostMapping("/login")
-    public String login(@ModelAttribute User user, HttpSession session) {
-        
+    public String login(@ModelAttribute User user, HttpSession session, RedirectAttributes redirectAttributes) {
         User loggedInUser;
         loggedInUser = userDao.checkLogin(user.getUserName(), user.getPassword());
         if (loggedInUser == null) {
-            return "login";
+            Boolean error = true;
+            redirectAttributes.addFlashAttribute("error", error);
+            return "redirect:/login";
         }
         session.setAttribute("user", loggedInUser);
         return "redirect:/map";
