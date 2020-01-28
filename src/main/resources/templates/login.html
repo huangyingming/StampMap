@@ -16,6 +16,9 @@
                 <input type="password" th:field="*{password}" class="form-control"/>
             </div>
             <button type="submit" class="btn btn-defualt">送信</button>
+            <div th:class="${hasError} ? error : hidden">
+                <p>ユーザ名とパスワードに一致するユーザが登録されていません</p>
+            </div>
         </form>
         <footer th:replace="commons/footer :: footer"></footer>
     </div>

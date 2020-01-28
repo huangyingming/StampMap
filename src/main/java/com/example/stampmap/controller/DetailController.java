@@ -36,6 +36,8 @@ public class DetailController {
     private UserDao userDao;
     @GetMapping("/{placeId}") 
     public String detailRender(@PathVariable int placeId, Model model) {
+        boolean isLoggedIn = (Utility.isLoggedIn()) ? true : false;        
+        model.addAttribute("isLoggedIn", isLoggedIn);
         Place place = detailService.populatePlace(placeId);
         List<Comment> commentList = commentDao.readComments(placeId);
         model.addAttribute("place", place);

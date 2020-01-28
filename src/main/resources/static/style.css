@@ -37,6 +37,13 @@ img {
     margin: 0 0px 20px auto;
     width: 260px;
 }
+
+.site-description {
+    width: 80%;
+    margin: 10px auto;
+    
+}
+
 /* upload */
 .editImages {
     display: none;

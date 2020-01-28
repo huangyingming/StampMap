@@ -1,9 +1,9 @@
 package com.example.stampmap.controller;
 
-
 import com.example.stampmap.Utility;
 import com.example.stampmap.dao.UserDao;
 import com.example.stampmap.dto.User;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,22 +24,18 @@ public class AccountController {
     private UserDao userDao;
     
     @GetMapping("/login")
-    public String login(Model model, @ModelAttribute("error") Boolean error) {
-        if (error != null && error) {
-            model.addAttribute("hasError", true);
-        }
+    public String login(Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("user", new User());
         return "login";
     }
     
     @PostMapping("/login")
-    public String login(@ModelAttribute User user, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String login(@ModelAttribute User user, HttpSession session, RedirectAttributes redirectAttributes, Model model) {
         User loggedInUser;
         loggedInUser = userDao.checkLogin(user.getUserName(), user.getPassword());
         if (loggedInUser == null) {
-            Boolean error = true;
-            redirectAttributes.addFlashAttribute("error", error);
-            return "redirect:/login";
+            model.addAttribute("hasError", true);
+            return "login";
         }
         session.setAttribute("user", loggedInUser);
         return "redirect:/map";

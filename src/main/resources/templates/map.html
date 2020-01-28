@@ -7,6 +7,9 @@
 <body>
     <nav th:replace="commons/navigation :: navigation"></nav>
     <div class="container">
+        <div th:class="site-description">
+            <p>記念スタンプの情報を共有するための地図アプリです。ログインユーザはスポット情報のアップロード・編集、コメント、スタンプ画像の追加を行えます。</p>      
+        </div>
         <div th:class="${isLoggedIn} ? visited : hidden">
             <a th:href="@{/map/visited}">
                 <button type="button">コメントしたスポットのみ表示</button>

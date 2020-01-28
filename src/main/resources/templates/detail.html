@@ -19,15 +19,16 @@
             </div>
             <form class="image-form" role="form" th:action="@{__${#httpServletRequest.requestURI}__/image}" enctype="multipart/form-data" method="post" >
                 <div class="input-box">
-                    <input type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg, image/jpeg" th:field="*{images}" />
-                    <input type="submit" value="画像の追加" /><span>（10MB以上は403エラーになります）</span>
+                    <input id="file-select" type="file" name="images[]" multiple="multiple" accept="image/png, image/jpg, image/jpeg" th:field="*{images}" />
+                    <input type="submit" value="画像の追加" th:disabled="!${isLoggedIn}"/><span th:text="${isLoggedIn} ? '10MB以上は403エラーになります' : '要ログイン'"></span>
                 </div>
             </form>
-            <p th:class="place-created-at">登録日時: <span th:text="*{placeCreatedAt}"></span></p>
-            <p th:class="*{placeUpdatedAt}==null ? hidden : 'place-updated-at'">更新日時<span th:text='*{placeUpdatedAt}'></span></p>
-            <div class="error right image-error" th:classappend="${imageLoggedIn}">
+            <div class="error image-error" th:classappend="${imageLoggedIn}">
                 <p>ログインが必要です。</p>
             </div>
+            <p th:class="place-created-at">登録日時: <span th:text="*{placeCreatedAt}"></span></p>
+            <p th:class="*{placeUpdatedAt}==null ? hidden : 'place-updated-at'">更新日時<span th:text='*{placeUpdatedAt}'></span></p>
+            
         </div>
         <div th:class="edit-form" th:object="${place}">
             <form role="form" th:action="@{/edit}" method="get">
@@ -40,10 +41,10 @@
                 <input type="hidden" th:field="*{latitude}" />
                 <input type="hidden" th:field="*{longitude}" />
                 <input type="hidden" th:field="*{userId}" />
-                <input type="submit" th:value="編集" />
+                <input type="submit" th:value="編集" th:disabled="!${isLoggedIn}"/><span th:class="${isLoggedIn} ? hidden : ''">（要ログイン）</span>
             </form>
         </div>
-        <div class="error right" th:classappend="${editLoggedIn}">
+        <div class="error" th:classappend="${editLoggedIn}">
             <p>ログインが必要です。</p>
         </div>
         <div class="comment-section">
@@ -51,7 +52,7 @@
                 <label>コメント</label>
                 <br />
                 <textarea th:class="content-input" th:field="*{content}" />
-                <input type="submit" value="送信" />
+                <input type="submit" value="送信" th:disabled="!${isLoggedIn}" /><span th:class="${isLoggedIn} ? hidden : ''">（要ログイン）</span>
             </form>
             <div th:class="${commentLoggedIn}" th:classappend="error">
                 <p>ログインが必要です。</p>
