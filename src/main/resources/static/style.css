@@ -231,3 +231,8 @@ footer img {
     color: red;
     margin-top: 10px;
 }
+
+/* nav */
+.link-disabled:active {
+    pointer-events: none;
+}

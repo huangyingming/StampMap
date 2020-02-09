@@ -20,7 +20,7 @@
                     <ul class="nav navbar-nav">
 			<li><a th:href="@{/map}">マップ</a></li>
                         <li 
-                            th:attr="data-toggle=${isLoggedIn} ? '' : 'tooltip', class=${isLoggedIn} ? '' : 'disabled', title=${isLoggedIn} ? '' : 'ログインしてください'">
+                            th:attr="data-toggle=${isLoggedIn} ? '' : 'tooltip', class=${isLoggedIn} ? '' : 'disabled link-disabled', title=${isLoggedIn} ? '' : 'ログインしてください'">
                             <a th:href="@{/upload}">アップロード</a></li>
                         <li><a th:href="@{/placelist}">一覧</a></li>
 			<li class="dropdown">
