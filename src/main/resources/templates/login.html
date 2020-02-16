@@ -6,7 +6,10 @@
 <body>
     <div class="container">
         <nav th:replace="commons/navigation :: navigation"></nav>
-        <form th:class="login-form" role="form" th:action="@{/login}" th:object="${user}" method="post">
+        <form th:class="login-form" role="form" th:action="${toUpload} ? @{/login2} : @{/login}" th:object="${user}" method="post">
+            <div th:class="${toUpload} ? 'error' : 'hidden'">
+                <p>アップロードを行うにはログインしてください。</p>
+            </div>
             <div class="form-group">
                 <label>ユーザ名</label>
                 <input type="text" th:field="*{userName}" class="form-control"/>
@@ -15,11 +18,13 @@
                 <label>パスワード</label>
                 <input type="password" th:field="*{password}" class="form-control"/>
             </div>
+            <input type='hidden' value="${toUpload} ? 1 : 0" />
             <button type="submit" class="btn btn-defualt">送信</button>
             <div th:class="${hasError} ? error : hidden">
                 <p>ユーザ名とパスワードに一致するユーザが登録されていません</p>
             </div>
         </form>
+        
         <footer th:replace="commons/footer :: footer"></footer>
     </div>
 </body>

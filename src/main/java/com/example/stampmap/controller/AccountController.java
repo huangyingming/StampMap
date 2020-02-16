@@ -3,7 +3,6 @@ package com.example.stampmap.controller;
 import com.example.stampmap.Utility;
 import com.example.stampmap.dao.UserDao;
 import com.example.stampmap.dto.User;
-import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,13 +24,25 @@ public class AccountController {
     private UserDao userDao;
     
     @GetMapping("/login")
-    public String login(Model model, RedirectAttributes redirectAttributes) {
+    public String login(Model model, RedirectAttributes redirectAttributes, @RequestParam(name = "toupload", required = false) Boolean toUpload) {
         model.addAttribute("user", new User());
+        model.addAttribute("toUpload", toUpload);
         return "login";
     }
     
     @PostMapping("/login")
     public String login(@ModelAttribute User user, HttpSession session, RedirectAttributes redirectAttributes, Model model) {
+        String result = processLogin(user, session, redirectAttributes, model, false);
+        return result;
+    }
+    
+    @PostMapping("/login2")
+    public String login2(@ModelAttribute User user, HttpSession session, RedirectAttributes redirectAttributes, Model model) {
+        String result = processLogin(user, session, redirectAttributes, model, true);
+        return result;
+    }
+    
+    private String processLogin(User user, HttpSession session, RedirectAttributes redirectAttributes, Model model, boolean is2) {
         User loggedInUser;
         loggedInUser = userDao.checkLogin(user.getUserName(), user.getPassword());
         if (loggedInUser == null) {
@@ -38,9 +50,12 @@ public class AccountController {
             return "login";
         }
         session.setAttribute("user", loggedInUser);
-        return "redirect:/map";
+        if (is2) {
+            return "redirect:/upload";
+        } else {
+            return "redirect:/map";
+        }
     }
-    
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
@@ -99,5 +114,4 @@ public class AccountController {
             }
         }
     }
-    
 }
